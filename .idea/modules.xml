@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Striver problems.iml" filepath="$PROJECT_DIR$/.idea/Striver problems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Striver-problems-java.iml" filepath="$PROJECT_DIR$/Striver-problems-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Striver-problems-java.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Striver-problems-java.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Striver-problems-java.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Striver-problems-java.test.iml" />
     </modules>
   </component>
 </project>
