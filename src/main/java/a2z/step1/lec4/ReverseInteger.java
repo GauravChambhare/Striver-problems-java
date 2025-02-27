@@ -46,12 +46,45 @@ private int reverseHelper(int num, int rev, boolean isNegative) {
 
         // below is the correct approach
          */
+
+        /*
+        * class Solution {
+    public int reverse(int x) {
+        // int
+        if (x==0){ return 0;}
+        String reverse = "";
+        int sign = (x < 0) ? -1 : 1;
+        x = Math.abs(x);
+
+        String s = String.valueOf(x);
+        for (int i=0; i < s.length(); i++)
+        {
+            reverse = s.charAt(i) + reverse;
+        }
+
+        int ans;
+        try {
+            ans = Integer.parseInt(reverse);
+        } catch (NumberFormatException e) {
+            return 0;  // Handle integer overflow
+
+            //If reversing x exceeds Integer.MAX_VALUE (2³¹ - 1) or Integer.MIN_VALUE
+            //(-2³¹), it throws NumberFormatException when parsing the string.
+
+    }
+    ans = sign*ans;
+        return ans;
+}
+}
+        **/
+
         int rev =0;
         int orignal = x;
         x= Math.abs(x);
         while(x != 0){
-            int digit = x % 10;
-            if(rev > (Integer.MAX_VALUE - digit)/10){
+            int digit = x % 10; //isse hum last digit extract karte hai.
+            if(rev > (Integer.MAX_VALUE - digit)/10){ // Agar rev ka multiplication 10 se karne par Integer.MAX_VALUE
+                // cross hone ka chance hai, to hum directly 0 return karenge.
                 return 0;
             }
             rev = 10*rev + digit;
@@ -59,6 +92,7 @@ private int reverseHelper(int num, int rev, boolean isNegative) {
         }
         return orignal <0 ? -rev : rev;
     }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
