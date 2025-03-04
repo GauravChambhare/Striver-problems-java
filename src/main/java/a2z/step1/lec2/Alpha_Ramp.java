@@ -1,3 +1,7 @@
+/*
+ 
+*/
+
 package a2z.step1.lec2;
 
 import java.util.Scanner;

@@ -1,3 +1,4 @@
+package faang_questions.string_arrays;
 import java.util.HashMap;
 import java.util.Map;
 

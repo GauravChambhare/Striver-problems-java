@@ -14,7 +14,7 @@ public class Easy {
         try {
             System.out.println("Enter your name");
             name = reader.readLine(); // taking string input
-            System.out.println("Name=" + name);
+            System.out.println("Name(BufferedReader) = " + name);
         }
         catch (Exception e) {
 //            Alternatively, if you just want the exception message:
@@ -31,7 +31,7 @@ public class Easy {
 //        Using Scanner we can take input like below
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
-        System.out.println("Name = " + s);
+        System.out.println("Name(Scanner) = " + s);
     }
 }
 

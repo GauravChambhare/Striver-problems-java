@@ -10,6 +10,7 @@ public class ForLoop {
          * Read input as specified in the question.
          * Print output as specified in the question.
          */
+        // For input int n code returns summition of first n natural numbers.
         Scanner sc = new Scanner(System.in);
         int num = sc.nextInt();
         if(num == 1){
@@ -30,7 +31,6 @@ public class ForLoop {
             System.out.println(ans);
 
         }
-
 
     }
 
