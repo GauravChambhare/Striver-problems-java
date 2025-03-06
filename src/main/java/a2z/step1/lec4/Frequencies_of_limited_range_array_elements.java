@@ -1,3 +1,8 @@
+/*
+https://www.geeksforgeeks.org/problems/frequency-of-array-elements-1587115620/0
+
+*/
+
 package a2z.step1.lec4;
 
 import java.util.Scanner;
@@ -19,7 +24,7 @@ public class Frequencies_of_limited_range_array_elements {
             // If element at elementIndex hasn't been processed yet (i.e., positive value)
             if (elementIndex < N && arr[elementIndex] > 0) {
                 // Store the current element value and mark the position with -1
-                int temp = arr[i];  // Store current element
+                 // Store current element
                 arr[i] = arr[elementIndex];  // Replace with the value at that index
                 arr[elementIndex] = -1;  // Mark the element as seen once
             } else if (elementIndex < N) {
@@ -94,5 +99,6 @@ public class Frequencies_of_limited_range_array_elements {
         for (int i = 0; i < N; i++) {
             System.out.print(arr[i] + " ");
         }
+        sc.close();
     }
 }

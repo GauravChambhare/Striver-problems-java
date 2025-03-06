@@ -15,7 +15,7 @@ public class PalindromeNumber {
                 return false; // false if it causes overflow
             }
             revNum = revNum*10 + ld;
-            x /= 10;
+            x /= 10; // removes last digit from the number
         }
         return original == revNum;
 
@@ -25,5 +25,6 @@ public class PalindromeNumber {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         System.out.println(isPalindrome(n));
+        sc.close();
     }
 }

@@ -14,7 +14,7 @@ public class Print_n_times {
         list.addAll(printNtimes(n-1));
         return list;
     }
-    // below one was done using loops
+    // below one was done using loops -- this is best approach for this problem
     public static List<String> printNtimesLoop(int n) {
         List<String> list = new ArrayList<>();
         for(int i=0; i<n; i++){
@@ -28,5 +28,6 @@ public class Print_n_times {
         int n = sc.nextInt();
         System.out.println("Using recursion - " + printNtimes(n));
         System.out.println("Using loops - " + printNtimesLoop(n));
+        sc.close();
     }
 }

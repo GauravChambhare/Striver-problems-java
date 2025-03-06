@@ -19,5 +19,6 @@ public class Print_1_to_N_without_loop {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         printNos(n);
+        sc.close();
     }
 }

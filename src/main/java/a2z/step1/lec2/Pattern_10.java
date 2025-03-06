@@ -11,9 +11,9 @@ https://www.geeksforgeeks.org/problems/triangle-pattern-1661718013/1&selectedLan
 */
 package a2z.step1.lec2;
 
-public class Patterna_10 {
+public class Pattern_10 {
     public static void main(String[] args) {
-        Patterna_10 pattern = new Patterna_10();
+        Pattern_10 pattern = new Pattern_10();
         pattern.printTriangle(5);  // You can change the value to print a triangle with different height
     }
 

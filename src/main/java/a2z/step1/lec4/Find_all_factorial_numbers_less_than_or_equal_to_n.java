@@ -1,3 +1,8 @@
+/*
+https://www.geeksforgeeks.org/problems/find-all-factorial-numbers-less-than-or-equal-to-n3548/0?ref=gcse_ind
+Given a number n, the task is to return the list/vector of the factorial numbers smaller than or equal to n.
+*/
+
 package a2z.step1.lec4;
 import  java.util.ArrayList;
 import java.util.Scanner;
@@ -21,5 +26,6 @@ public class Find_all_factorial_numbers_less_than_or_equal_to_n {
         Scanner sc = new Scanner(System.in);
         long n = sc.nextLong();
         System.out.println(factorialNumbers(n));
+        sc.close();
     }
 }

@@ -1,11 +1,10 @@
 package a2z.step1.lec2;
 
-import java.util.Scanner;
-
 public class Symmetry {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
+        // Scanner sc = new Scanner(System.in);
+        // int n = sc.nextInt();
+        int n = 5;
         // Write your code here
         for(int row=0; row<n; row++){
             for(int star=0; star<row+1; star++){
@@ -21,7 +20,7 @@ public class Symmetry {
         }
         for(int row=0; row<n-1; row++){
             for(int star=0; star<n-1-row; star++){
-                System.out.print("* ");
+                System.out.print("* "); 
             }
             for(int space=1; space<=2*(1+row); space++){
                 System.out.print("  ");
@@ -31,6 +30,6 @@ public class Symmetry {
             }
             System.out.println();
         }
-        sc.close();
+
     }
 }

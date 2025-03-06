@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class LcmAndGcd {
     static Long[] lcmAndGcd(Long A , Long B) {
         Long[] result = new Long[2];
-        result[1] = Gcd(A, B);  // GCD
+        result[1] = gcd(A, B);  // GCD
         result[0] = (A * B) / result[1];  // LCM using the formula: LCM * GCD = A * B
         return result;
     }
@@ -14,6 +14,21 @@ public class LcmAndGcd {
     static Long Gcd(Long A, Long B) {
         if (B == 0) return A;
         return Gcd(B, A % B);
+    }
+
+    static Long gcd(Long A, Long B) {
+        while(A>0 && B>0){
+            if(A>B){
+                A = A%B;
+            }else{
+                B = B%A;
+            }
+        }
+        if(A == 0){
+            return B;
+        }else{
+            return A;
+        }
     }
     /*second method
         Long o[]=new Long[2];
@@ -35,6 +50,7 @@ public class LcmAndGcd {
         Long n = sc.nextLong();
         Long m = sc.nextLong();
         System.out.println(Arrays.toString(lcmAndGcd(n, m)));
+        sc.close();
 
     }
 }

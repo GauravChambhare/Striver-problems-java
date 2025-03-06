@@ -30,7 +30,7 @@ public class twoSum {
             }
             map.put(arr[i], i);
         }
-        return map;
+        return result;
     }
 
     public static void main(String[] args) {

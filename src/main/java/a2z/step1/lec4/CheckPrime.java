@@ -13,7 +13,6 @@ public class CheckPrime {
             System.out.println("NO");
             return;
         }
-        int count = 0;
 
         for(int i =2; i<=Math.sqrt(n); i++){
             if(n%i==0){
@@ -22,5 +21,6 @@ public class CheckPrime {
             }
         }
         System.out.println("YES");
+        sc.close();
     }
 }

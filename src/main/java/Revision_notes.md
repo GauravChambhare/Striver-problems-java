@@ -189,3 +189,291 @@ public class Fibonacci {
 }
 ```
 ===========================
+
+---
+*8. src/main/java/a2z/step1/lec4/CheckArmstrong.java*
+```java
+public class CheckArmstrong {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int power = String.valueOf(n).length();
+        int copy = n;
+        int sum = 0;
+        while(copy > 0){
+            sum = (int) (sum + Math.pow((copy % 10), power));
+            copy /= 10;
+        }
+        System.out.println(sum == n);
+        sc.close();
+    }
+}
+```
+Step-by-Step Execution
+1. Extract the last digit of copy using `copy % 10`.
+2. Raise the digit to the given power using `Math.pow(digit, power)`.
+3. Add the result to sum.
+4. Remove the last digit from `copy` by performing integer division `copy /= 10`.
+5. Repeat the process until `copy` becomes 0.
+
+===========================
+
+---
+*9. src/main/java/a2z/step1/lec4/FibonacciNumber.java*
+```java
+public class FibonacciNumber {
+    public static int fib(int n) {
+        if(n==1){
+            return 1;
+        }
+        else if(n==0){
+            return 0;
+        }
+
+        return fib(n-1) + fib(n-2);
+    }
+//    Iterative approach -- more optimised
+    public static int fibiter(int N)
+    {
+        if(N <= 1)
+            return N;
+
+        int a = 0, b = 1;
+
+        while(N-- > 1)
+        {
+            int sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return b;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        System.out.println(fibiter(n));
+        sc.close();
+    }
+}
+```
+
+
+### **Comparison of Recursive vs Iterative Fibonacci Methods**
+
+| Approach      | Time Complexity | Space Complexity | Pros | Cons |
+|--------------|---------------|----------------|------|------|
+| **Recursive (`fib`)** | **O(2ⁿ) (Exponential)** | **O(n) (Stack space for recursion calls)** | Simple, follows the mathematical definition | Very slow for large `n`, causes stack overflow |
+| **Iterative (`fibiter`)** | **O(n) (Linear)** | **O(1) (Constant, no extra space)** | Efficient, avoids recursion overhead | Slightly more code, but very fast |
+
+===========================
+
+---
+*10. src/main/java/a2z/step1/lec4/Frequencies_of_limited_range_array_elements.java*
+
+### **Problem Statement**
+Given an array `arr[]` of size `N` and an integer `P` representing the maximum range value, count the frequency of each number from `1` to `P` in the array. Modify the array in-place to store the frequency of each number in its corresponding index.
+
+In Java, when you create an integer array using new int[size], all elements are automatically initialized to 0 by default.
+
+### **Example 1**
+#### **Input:**
+```text
+N = 5, P = 5
+arr = [2, 3, 2, 3, 5]
+```
+#### **Output:**
+```text
+0 2 2 0 1
+```
+#### **Explanation:**
+- The frequency of `1` is `0`.
+- The frequency of `2` is `2`.
+- The frequency of `3` is `2`.
+- The frequency of `4` is `0`.
+- The frequency of `5` is `1`.
+
+---
+
+## **Approach (Optimized In-Place Counting)**
+### **Logic Explanation**
+- The idea is to use **indexing** to store the frequencies within the array itself.
+- Instead of using an extra frequency array, we manipulate the given array to track frequencies efficiently.
+- **Negative values** are used as markers to indicate that an element's frequency is being counted.
+
+### **Algorithm**
+1. **First Pass (Rearrange Elements)**
+   - Iterate through the array.
+   - If the element is **out of range** (i.e., not between `1` and `P`), ignore it.
+   - Otherwise, compute its correct index (`arr[i] - 1`).
+   - If the indexed position is still **positive**, swap values.
+   - If already processed (negative marker), decrement its count.
+   - Mark visited positions with `-1` to track counts.
+2. **Second Pass (Adjust the Counts)**
+   - Convert negative values back to positive to get the actual frequency counts.
+
+---
+
+## **Code Implementation**
+```java
+public class FrequenciesOfLimitedRangeArrayElements {
+
+    public static void frequencyCount(int arr[], int N, int P) {
+        int i = 0;
+        while (i < N) {
+            // Ignore elements that are out of the range [1, P]
+            if (arr[i] <= 0 || arr[i] > P) {
+                i++;
+                continue;
+            }
+
+            // Get index corresponding to current element (1-based to 0-based)
+            int elementIndex = arr[i] - 1;
+
+            // If element at elementIndex hasn't been processed yet (i.e., positive value)
+            if (elementIndex < N && arr[elementIndex] > 0) {
+                // Store the current element value and mark the position with -1
+                arr[i] = arr[elementIndex];  // Replace with the value at that index
+                arr[elementIndex] = -1;  // Mark the element as seen once
+            } else if (elementIndex < N) {
+                // If already processed, decrement its value (it is stored as negative)
+                arr[elementIndex]--;
+                // Set current element to 0 as it's now processed
+                arr[i] = 0;
+                i++;
+            } else {
+                // Handle elements greater than N
+                i++;
+            }
+        }
+
+        // Second pass to adjust counts
+        for (int k = 0; k < N; k++) {
+            if (arr[k] < 0)
+                arr[k] = -arr[k]; // Convert counts back to positive
+            else
+                arr[k] = 0; // Set positions where element didn't appear to 0
+        }
+    }
+}
+```
+
+---
+
+## **Time Complexity Analysis**
+- **First pass:** `O(N)`, since we traverse the array once.
+- **Second pass:** `O(N)`, since we again traverse the array once.
+- **Total Complexity:** `O(N)`, making it an efficient solution.
+
+## **Space Complexity Analysis**
+- We use **O(1)** extra space as we modify the input array in place.
+
+---
+
+## **Edge Cases Considered**
+- ✅ All numbers in the array are within range `[1, P]`.
+- ✅ Some or all numbers are **out of range**.
+- ✅ Duplicate numbers appear multiple times.
+- ✅ `N == 1`, smallest input case.
+- ✅ `P > N`, ensuring all values fit within the given range.
+
+
+===========================
+
+---
+
+*11.src/main/java/a2z/step1/lec4/LcmAndGcd.java*
+
+### LCM and GCD Calculation
+
+#### **Problem Statement**
+Given two numbers `a` and `b`, compute their **Least Common Multiple (LCM)** and **Greatest Common Divisor (GCD)**.
+
+### **Approach 1: Brute Force (Iterative GCD Calculation)**
+### **Logic Explanation**
+- Iterate from `min(a, b)` down to `1`.
+- The first number that divides both `a` and `b` is the **GCD**.
+- Use the formula to compute **LCM**:  
+  LCM(a, b) = (a * b)/GCD(a, b)
+
+### **Code Implementation (Java)**
+```java
+public class LCM_GCD {
+    public static int gcd(int a, int b) {
+        for (int x = Math.min(a, b); x > 0; x--) {
+            if (a % x == 0 && b % x == 0) {
+                return x;
+            }
+        }
+        return 1;
+    }
+
+    public static int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    public static void main(String[] args) {
+        int a = 12, b = 15;
+        System.out.println("LCM: " + lcm(a, b) + ", GCD: " + gcd(a, b));
+    }
+}
+```
+
+### **Time Complexity Analysis**
+- **Worst-case:** `O(min(a, b))` iterations.
+- Not efficient for large numbers.
+
+---
+
+### **Approach 2: Using Euclidean Algorithm (Efficient Method)**
+### **Logic Explanation**
+- The **Euclidean algorithm** is based on the property:
+  
+    GCD(a, b) = GCD(b, a % b)
+  
+  - Keep replacing `a` with `b` and `b` with `a % b` until `b == 0`.
+  - The remaining value of `a` is the **GCD**.
+  - Compute **LCM** using the formula:
+    
+    LCM(a, b) = (a * b)/GCD(a, b)
+
+### **Code Implementation (Java)**
+```java
+public class LCM_GCD_Efficient {
+    public static int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    public static int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    public static void main(String[] args) {
+        int a = 12, b = 15;
+        System.out.println("LCM: " + lcm(a, b) + ", GCD: " + gcd(a, b));
+    }
+}
+```
+
+---
+
+### **Time Complexity Analysis**
+- **GCD Calculation (Euclidean Method):** `O(log(min(a, b)))`
+- **LCM Calculation:** `O(1)`
+- **Overall Complexity:** `O(log(min(a, b)))` (Much faster than brute force!)
+
+---
+
+### **Edge Cases Considered**
+✅ `a == b` → Both GCD and LCM should be `a`.  
+✅ One of the numbers is `1` → GCD is `1`, LCM is the larger number.  
+✅ Large values of `a` and `b` → Handles efficiently using Euclidean algorithm.  
+✅ Prime numbers → GCD is always `1`, LCM is `a * b`.  
+
+===========================
+
+---
