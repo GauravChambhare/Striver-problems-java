@@ -468,7 +468,7 @@ public class LCM_GCD_Efficient {
 
 ---
 
-### **Edge Cases Considered**
+#### **Edge Cases Considered**
 ✅ `a == b` → Both GCD and LCM should be `a`.  
 ✅ One of the numbers is `1` → GCD is `1`, LCM is the larger number.  
 ✅ Large values of `a` and `b` → Handles efficiently using Euclidean algorithm.  
@@ -477,3 +477,40 @@ public class LCM_GCD_Efficient {
 ===========================
 
 ---
+
+*12.src/main/java/a2z/step6/lec1/delete_a_node_in_linked_list.java*
+
+### **Delete Node in a Linked List**  
+📌 **Problem Statement:**  
+Given a node `node` (not the last node) in a **singly linked list**, delete it without access to `head`.  
+
+### **Approach: Trick to Delete Without Head**
+✅ **Key Idea:** Copy the next node’s value into `node` and bypass the next node.  
+✅ **Implementation Steps:**  
+1. Copy `node.next.val` into `node.val`.  
+2. Point `node.next` to `node.next.next`.  
+3. Do **not** remove the node from memory (as per the problem constraint).  
+
+### **Code Implementation (Java)**
+```java
+public class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;  // Copy next node’s value
+        node.next = node.next.next; // Skip the next node
+    }
+}
+```
+
+### **Complexity Analysis**  
+- **Time Complexity:** `O(1)` (constant operations)  
+- **Space Complexity:** `O(1)` (no extra space)  
+
+---
+
+### **Edge Cases Considered**
+✅ `node` is **not** the last node (guaranteed by the problem).  
+✅ Works for **any** position except the last.  
+✅ **Preserves order** of remaining elements.  
+
+📌 **Trick to Remember:** **Copy & Skip, No Head Needed!** 🚀  
+
