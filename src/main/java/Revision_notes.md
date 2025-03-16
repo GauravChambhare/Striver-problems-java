@@ -514,3 +514,153 @@ public class Solution {
 
 📌 **Trick to Remember:** **Copy & Skip, No Head Needed!** 🚀  
 
+===========================
+
+---
+*src/main/java/a2z/step6/lec2/introduction_to_doubly_linked_list.java*
+
+### **Constructing a Doubly Linked List from an Array**  
+
+#### **Problem Statement**  
+Given an integer array `arr` of size `n`, construct a **Doubly Linked List (DLL)** where:  
+- Each node has `data`, `next` (points to next node), and `prev` (points to previous node).  
+- Return the **head** of the doubly linked list.  
+
+---
+
+### **Approach: Iterative Construction**  
+✅ Create the **head node** with `arr[0]`.  
+✅ Use a `prev` pointer to link nodes **both forward (`next`) and backward (`prev`)**.  
+✅ Iterate through `arr` and construct the DLL.  
+
+---
+
+### **Code Implementation (Java)**  
+```java
+class Node {
+    int data;
+    Node next, prev;
+
+    Node(int val) {
+        data = val;
+        next = prev = null;
+    }
+}
+
+class Solution {
+    public Node constructDLL(int[] arr) {
+        if (arr.length == 0) return null;
+        Node head = new Node(arr[0]), prev = head;
+
+        for (int i = 1; i < arr.length; i++) {
+            Node temp = new Node(arr[i]);
+            prev.next = temp;
+            temp.prev = prev;
+            prev = temp;
+        }
+        return head;
+    }
+}
+```
+
+---
+
+### **Time & Space Complexity**  
+- **Time Complexity:** `O(n)` (traverse `arr` once).  
+- **Space Complexity:** `O(n)` (create `n` nodes).  
+
+---
+
+### **Key Tricks & Edge Cases**  
+✅ **Both forward (`next`) & backward (`prev`) links must be set.**  
+✅ **If `arr` is empty, return `null`.**  
+✅ **Handles single-element list (no `prev`).**  
+
+📌 **Trick to Remember:**  
+- Use `prev.next = temp; temp.prev = prev;` to link nodes both ways! 🚀
+
+===========================
+
+---
+*13. src/main/java/a2z/step6/lec2/introduction_to_doubly_linked_list.java*
+
+## **Problem Statement**
+- Given a **doubly linked list**, a position `p`, and an integer `x`, insert a new node with value `x` **after the `p`-th node** and return the updated head.
+- The index `p` follows **0-based indexing**.
+- The doubly linked list has **both `next` and `prev` pointers**.
+
+---
+
+## **Example Walkthrough**
+
+### **Example 1**
+#### **Input**:  
+```
+LinkedList: 2 <-> 4 <-> 5  
+p = 2, x = 6
+```
+#### **Processing**:
+- Insert `6` **after** position `p = 2` (which is node `5`).
+#### **Output**:  
+```
+2 <-> 4 <-> 5 <-> 6
+```
+---
+
+## **Approach**
+1. **Traverse to the `p`-th node**:
+   - Start from `head` and move `p` times to reach the `p`-th node.
+2. **Create a new node** with value `x`.
+3. **Insert the new node after the `p`-th node**:
+   - Adjust `next` and `prev` pointers to maintain the doubly linked list structure.
+4. **Handle edge cases**:
+   - If inserting after the last node, set `newNode.next = null`.
+   - If inserting between two nodes, update the `prev` pointer of the next node.
+
+---
+
+## **Code Implementation (Java)**
+```java
+class Solution {
+    // Function to insert a new node at given position in doubly linked list.
+    Node addNode(Node head, int p, int x) {
+        Node temp = head;
+        
+        // Traverse to the p-th node
+        for (int i = 0; i < p; i++) {
+            if (temp == null) return head; // Handle invalid p (shouldn't happen as per constraints)
+            temp = temp.next;
+        }
+        
+        // Create new node
+        Node newNode = new Node(x);
+        
+        // Insert newNode after temp
+        newNode.next = temp.next;
+        newNode.prev = temp;
+        temp.next = newNode;
+
+        // If newNode is not the last node, update the next node's prev pointer
+        if (newNode.next != null) {
+            newNode.next.prev = newNode;
+        }
+
+        return head;
+    }
+}
+```
+
+---
+
+## **Complexity Analysis**
+✅ **Time Complexity:** `O(p)` (since we traverse `p` nodes before insertion).  
+✅ **Space Complexity:** `O(1)` (only one new node is created).  
+
+---
+
+## **Edge Cases Considered**
+🔹 **`p == 0` (Insert after head)** → Works fine without special handling.  
+🔹 **`p` is at the last node** → Correctly assigns `null` to `newNode.next`.  
+🔹 **General insert in between** → Both `next` and `prev` pointers are properly set.  
+
+---
