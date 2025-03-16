@@ -13,6 +13,7 @@ public class FindNthNodeFromEnd {
 
     Node head = null;
     private int length=0;
+    private static int counter=0;
 
     public void push(int data){
         if(head==null){ 
@@ -56,8 +57,28 @@ public class FindNthNodeFromEnd {
         } 
         return pNthNode.data;//returning the data of nth node from end.
     }
+    // now I have to get nth node from end using recursion
+
+    public static Node nthFromEndUsingRecursion(Node head,int n){
+        //base case
+        if(head==null){
+            return null;
+        }
+        // recursive call to travel to end of llist
+        Node result = nthFromEndUsingRecursion(head.next, n);
+
+        // bactracking logic
+        counter++;
+        // check if head is nth from end
+        if(counter==n){
+            return head;
+        }
+        return result;
+        
+    }
 
     public static void main(String[] args) {
+        
         FindNthNodeFromEnd llist = new FindNthNodeFromEnd();
     // System.out.println(llist.isEmpty());
         llist.push(9);
@@ -68,7 +89,18 @@ public class FindNthNodeFromEnd {
         llist.push(76);
         System.out.println(llist);
         System.out.println("3rd node from end in this list is : " + llist.nthNodeFromEnd(3));
+        /*
+        */
 
+        int Nth = 2;
+        Node result = nthFromEndUsingRecursion(llist.head, Nth);
+        if (result != null) {
+            System.out.println(Nth + "th node from end is: " + result.data);
+        } else {
+            System.out.println("List is too short.");
+        }
+        /**/
+        
     }
     
 }
