@@ -74,6 +74,33 @@ public class CheckForCycleInLL {
         }
     }
 
+    public int detectCycleFloydsAndFindLoopLength(Node head){
+        Node fastPtr = head;
+        Node slowPtr = head;
+        boolean loopExist = false;
+
+        while(fastPtr!=null && fastPtr.next!=null){
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+            if(slowPtr==fastPtr){  
+                loopExist = true;
+                break;
+            }
+        }
+        if(loopExist){
+            // instead of doing like below you could have also used do while loop
+            int length = 1;
+            fastPtr = fastPtr.next;
+            while(slowPtr!=fastPtr){
+                fastPtr = fastPtr.next;
+                length++;
+            }
+            return length;
+        }
+        else{
+            return 0;
+        }
+    }
 
     public static void main(String[] args) {
         CheckForCycleInLL list = new CheckForCycleInLL();
@@ -97,6 +124,13 @@ public class CheckForCycleInLL {
         }
         else {
             System.out.println("No cycle detected.");
+        }
+        int result2 = list.detectCycleFloydsAndFindLoopLength(head);
+        if(result2==0){
+            System.out.println("No cycel exist!");
+        }
+        else {
+            System.out.println("Cycle exist and it's length is :" + result2 );
         }
     }
 
