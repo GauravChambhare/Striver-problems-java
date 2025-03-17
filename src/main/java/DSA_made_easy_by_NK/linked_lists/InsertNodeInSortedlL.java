@@ -13,17 +13,13 @@ public class InsertNodeInSortedlL {
 
     private int length=0;
     Node head = null;
-    public void push(int data){
-        if(head==null){ 
-            head = new Node(data); 
-            length++;
-            return; 
-        }
-        Node node = new Node(data); //adding new node at head itself instead of tail
+    public void push(int data) {
+        Node node = new Node(data);
         node.next = head;
-        head  = node;
+        head = node;
         length++;
     }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -36,16 +32,38 @@ public class InsertNodeInSortedlL {
         sb.append("NULL ]");
         return sb.toString();
     }
+    public void putInSortedLL(Node node) {
+        if (head == null || node.data > head.data) {
+            node.next = head;
+            head = node;
+            return;
+        }
+
+        Node temp = head;
+        Node current = head;
+
+        // ✅ Fix: Avoid infinite loop by checking `current != null` first
+        while (current != null && node.data < current.data) {  // Descending order fix
+            temp = current;
+            current = current.next;
+        }
+
+        node.next = current;
+        temp.next = node;
+    }
 
     public static void main(String[] args) {
-        FindNthNodeFromEnd llist = new FindNthNodeFromEnd();
+        InsertNodeInSortedlL llist = new InsertNodeInSortedlL();
         // System.out.println(llist.isEmpty());
         llist.push(1);
         llist.push(2);
         llist.push(3);
         llist.push(4);
         llist.push(5);
-        llist.push(6);
+        llist.push(7);
+        System.out.println(llist);
+        llist.putInSortedLL(llist.new Node(6));//Non-static inner classes must be instantiated using an instance of the outer class.
+        // new Node(6) doesn’t work because Node is not static, and it needs an instance of InsertNodeInSortedlL.
         System.out.println(llist);
 
     }
