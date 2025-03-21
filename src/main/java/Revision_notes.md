@@ -475,8 +475,9 @@ public class LCM_GCD_Efficient {
 ✅ Prime numbers → GCD is always `1`, LCM is `a * b`.  
 
 ===========================
-
 ---
+# Linked Lists
+
 
 *12.src/main/java/a2z/step6/lec1/delete_a_node_in_linked_list.java*
 
@@ -813,3 +814,115 @@ class Solution {
 🔹 **Empty List (`head == null`)** → Return `null`.  
 🔹 **Single Node List (`head.next == null`)** → Return `head`.  
 🔹 **Even-Length List** → `slow` correctly returns the second middle node.
+
+===========================
+
+---
+*16.src/main/java/a2z/step6/lec3/LinkedListCycle2.java*
+
+## **Detecting and Finding the Starting Node of a Cycle in a Linked List**
+
+### **Problem Statement**
+Given a **singly linked list**, detect if there is a **cycle** in the list. If a cycle exists, return the **starting node** of the cycle. Otherwise, return `null`.
+
+---
+
+### **Example Walkthrough**
+
+### **Example 1: Cycle Present**
+#### **Input:**  
+```
+1 -> 2 -> 3 -> 4 -> 5 -> 3 (Cycle back to node 3)
+```
+#### **Processing**:
+- The `slow` and `fast` pointers detect a cycle.
+- Reset `slow` to `head`, move both `slow` and `fast` one step at a time.
+- They meet at node `3`, which is the **start of the cycle**.
+#### **Output:**  
+```
+Cycle detected at node with value: 3
+```
+
+### **Example 2: No Cycle**
+#### **Input:**  
+```
+1 -> 2 -> 3 -> 4 -> 5 -> null
+```
+#### **Output:**  
+```
+No cycle detected.
+```
+
+---
+
+## **Approach: Floyd’s Cycle Detection Algorithm**
+1. **Use Two Pointers (Slow & Fast):**
+   - `slow` moves **one step** at a time.
+   - `fast` moves **two steps** at a time.
+   - If they meet, a cycle **exists**.
+2. **Find the Cycle’s Starting Node:**
+   - Reset `slow` to `head`.
+   - Move `slow` and `fast` **one step** at a time.
+   - The meeting point is the **starting node of the cycle**.
+
+---
+
+## **Code Implementation (Java)**
+```java
+class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null) return null;
+
+        ListNode slow = head, fast = head;
+        boolean isCycle = false;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                isCycle = true;
+                break;
+            }
+        }
+
+        if (isCycle) {
+            slow = head;
+            while (slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow;
+        }
+
+        return null;
+    }
+}
+```
+
+---
+
+## **Time & Space Complexity**
+✅ **Time Complexity:** `O(n)` (Each pointer moves at most `O(n)` steps).  
+✅ **Space Complexity:** `O(1)` (Only two pointers used).  
+
+---
+
+## **Subproblems Related to Cycle Detection**
+### **1. Finding the Length of the Cycle**
+- After detecting a cycle (when `slow == fast`), keep one pointer fixed and move the other **one step** at a time.
+- Count the number of steps until they meet again.
+
+#### **Code to Find Cycle Length**
+```java
+public int cycleLength(ListNode slow) {
+    ListNode temp = slow;
+    int length = 0;
+    do {
+        temp = temp.next;
+        length++;
+    } while (temp != slow);
+    return length;
+}
+```
+
+✅ **Time Complexity:** `O(n)`, ✅ **Space Complexity:** `O(1)`
