@@ -664,3 +664,72 @@ class Solution {
 🔹 **General insert in between** → Both `next` and `prev` pointers are properly set.  
 
 ---
+
+===========================
+
+---
+*14.src/main/java/a2z/step6/lec2/ReverseDoublyLL.java*
+
+## **Problem Statement**
+- Given a **doubly linked list**, reverse the list such that the last node becomes the head and the first node becomes the tail.
+- The doubly linked list has **both `next` and `prev` pointers**.
+
+---
+
+## **Example Walkthrough**
+
+### **Example 1**
+#### **Input**:  
+```
+LinkedList: 1 <-> 2 <-> 3 <-> 4 <-> 5
+```
+#### **Processing**:
+- Reverse all `next` and `prev` pointers.
+#### **Output**:  
+```
+5 <-> 4 <-> 3 <-> 2 <-> 1
+```
+---
+
+## **Approach**
+1. **Initialize two pointers**:
+   - `current` starts at `head`.
+   - `temp` is used for swapping `next` and `prev`.
+2. **Swap `prev` and `next` for each node**:
+   - Move `current` to `prev` (which was `next` before swapping).
+3. **Update head to the last processed node**.
+
+---
+
+## **Code Implementation (Java)**
+```java
+class Solution {
+    public Node reverseDLL(Node head) {
+        Node current = head;
+        Node temp = null;
+
+        // Swap next and prev for all nodes
+        while (current != null) {
+            temp = current.prev; 
+            current.prev = current.next; 
+            current.next = temp;
+            head = current; // Update head to last processed node
+            current = current.prev; // Move to next node (was prev before swap)
+        }
+        return head;
+    }
+}
+```
+
+---
+
+## **Complexity Analysis**
+✅ **Time Complexity:** `O(n)` (since we visit each node once).  
+✅ **Space Complexity:** `O(1)` (no extra memory used).  
+
+---
+
+## **Edge Cases Considered**
+🔹 **Empty List (`head == null`)** → Return `null`.  
+🔹 **Single Node List (`head.next == null`)** → Return `head` as is.  
+🔹 **General Case** → Swaps all `next` and `prev` pointers correctly.
