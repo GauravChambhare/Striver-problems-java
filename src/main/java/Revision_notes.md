@@ -733,3 +733,83 @@ class Solution {
 🔹 **Empty List (`head == null`)** → Return `null`.  
 🔹 **Single Node List (`head.next == null`)** → Return `head` as is.  
 🔹 **General Case** → Swaps all `next` and `prev` pointers correctly.
+
+===========================
+
+---
+*15.src/main/java/a2z/step6/lec3/MiddleOfLinkedList.java*
+
+## **Problem Statement**
+- Given a **singly linked list**, find the **middle node** of the list.
+- If there are **two middle nodes** (even-length list), return the **second middle node**.
+
+---
+
+## **Example Walkthrough**
+
+### **Example 1: Odd-Length Linked List**
+#### **Input**:  
+```
+1 -> 2 -> 3 -> 4 -> 5 -> null
+```
+#### **Processing**:
+- `slow` moves one step, `fast` moves two steps.
+- `fast` reaches the last node, `slow` stops at `3`.
+#### **Output**:  
+```
+3
+```
+
+### **Example 2: Even-Length Linked List**
+#### **Input**:  
+```
+1 -> 2 -> 3 -> 4 -> 5 -> 6 -> null
+```
+#### **Processing**:
+- `slow` moves one step, `fast` moves two steps.
+- `fast` reaches `null`, `slow` stops at `4` (second middle node).
+#### **Output**:  
+```
+4
+```
+
+---
+
+## **Approach: Two-Pointer Technique**
+1. **Initialize two pointers**:
+   - `slow` (moves one step at a time).
+   - `fast` (moves two steps at a time).
+2. **Traverse the list**:
+   - When `fast` reaches the end (`null`), `slow` will be at the middle.
+3. **Return `slow`**:
+   - If the list has an **odd** length, `slow` is at the exact middle.
+   - If the list has an **even** length, `slow` is at the **second middle node**.
+
+---
+
+## **Code Implementation (Java)**
+```java
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow; // Returns the second middle in case of even-length list
+    }
+}
+```
+
+---
+
+## **Complexity Analysis**
+✅ **Time Complexity:** `O(n)` (since we traverse the list once).  
+✅ **Space Complexity:** `O(1)` (only uses two pointers).  
+
+---
+
+## **Edge Cases Considered**
+🔹 **Empty List (`head == null`)** → Return `null`.  
+🔹 **Single Node List (`head.next == null`)** → Return `head`.  
+🔹 **Even-Length List** → `slow` correctly returns the second middle node.
