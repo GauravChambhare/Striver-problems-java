@@ -926,3 +926,415 @@ public int cycleLength(ListNode slow) {
 ```
 
 ✅ **Time Complexity:** `O(n)`, ✅ **Space Complexity:** `O(1)`
+
+===========================
+
+---
+*17.src/main/java/a2z/step6/lec3/IntersectionOfTwoLinkedList.java*
+
+# Intersection of Two Linked Lists
+
+## Problem Statement
+Given the heads of two singly linked lists, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return `null`.
+
+### Example:
+#### Input:
+```
+List A: 3 -> 6 -> 9 -> 8 -> 10
+List B: 4 -> 8 -> 10
+Intersection at node with value: 8
+```
+#### Output:
+```
+Intersection at node with value: 8
+```
+
+---
+
+## Approach: Two Pointer Technique
+
+### Intuition
+- If two linked lists intersect, they will have a common suffix.
+- Instead of using extra space, we can use two pointers and traverse both lists.
+- If one pointer reaches the end, switch it to the other list's head. Eventually, they will meet at the intersection point.
+
+### Algorithm
+1. Initialize two pointers `ptrA` and `ptrB` at the heads of `headA` and `headB`, respectively.
+2. Traverse both lists:
+   - Move `ptrA` to `ptrA.next` and `ptrB` to `ptrB.next`.
+   - If `ptrA` reaches `null`, set it to `headB`.
+   - If `ptrB` reaches `null`, set it to `headA`.
+3. When `ptrA == ptrB`, return `ptrA` (which is the intersection node or `null` if no intersection).
+
+### Code Implementation (Java)
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+public class IntersectionOfTwoLinkedList {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode ptrA = headA, ptrB = headB;
+        
+        while (ptrA != ptrB) {
+            if (ptrA == null) {
+                ptrA = headB;
+            } else {
+                ptrA = ptrA.next;
+            }
+            if (ptrB == null) {
+                ptrB = headA;
+            } else {
+                ptrB = ptrB.next;
+            }
+        }
+        return ptrA;
+    }
+
+    public static void main(String[] args) {
+        ListNode common = new ListNode(8);
+        common.next = new ListNode(10);
+        
+        ListNode headA = new ListNode(3);
+        headA.next = new ListNode(6);
+        headA.next.next = new ListNode(9);
+        headA.next.next.next = common;
+        
+        ListNode headB = new ListNode(4);
+        headB.next = common;
+        
+        IntersectionOfTwoLinkedList solution = new IntersectionOfTwoLinkedList();
+        ListNode intersection = solution.getIntersectionNode(headA, headB);
+        
+        if (intersection != null) {
+            System.out.println("Intersection at node with value: " + intersection.val);
+        } else {
+            System.out.println("No intersection found.");
+        }
+    }
+}
+```
+
+*Note:* The above implementation can also be written in a compact form:
+```java
+while (ptrA != ptrB) {
+    ptrA = (ptrA == null) ? headB : ptrA.next;
+    ptrB = (ptrB == null) ? headA : ptrB.next;
+}
+```
+Logically, both implementations are the same.
+
+---
+
+## Complexity Analysis
+| Operation | Time Complexity | Space Complexity |
+|-----------|----------------|------------------|
+| Traversing both lists | `O(m + n)` | `O(1)` |
+
+- **Time Complexity:** `O(m + n)`, where `m` and `n` are the lengths of the two lists. Each pointer traverses both lists at most once.
+- **Space Complexity:** `O(1)`, as we use only two pointers.
+
+---
+
+## Edge Cases Considered
+- No intersection → Returns `null`.
+- Intersection at the head node.
+- Different list lengths.
+- One or both lists are empty.
+
+### Alternative Approach: HashSet
+1. Store all nodes of one list in a `HashSet`.
+2. Traverse the second list and check if any node exists in the set.
+3. **Time Complexity:** `O(m + n)`, **Space Complexity:** `O(m)` (additional storage).
+
+This approach is useful when modifying pointers is not allowed.
+
+---
+
+## Key Takeaways
+- The **two-pointer technique** efficiently finds the intersection without extra space.
+- If lists have an intersection, the two pointers will meet after `m + n` steps.
+- The approach ensures an optimal `O(m + n)` time complexity without using a hash set.
+
+
+===========================
+
+---
+*17.src/main/java/a2z/step6/lec3/ReverseLinkedList.java*
+
+# Reverse a Singly Linked List
+
+## Problem Statement
+Given the head of a singly linked list, reverse the list and return its head.
+
+### Example:
+#### Input:
+```
+1 -> 2 -> 3 -> 4 -> 5 -> null
+```
+#### Output:
+```
+5 -> 4 -> 3 -> 2 -> 1 -> null
+```
+
+---
+
+## Approach: Iterative Method
+
+### Intuition
+- We traverse the list while reversing the `next` pointers.
+- Maintain three pointers:
+  1. `prev` (stores the previous node)
+  2. `current` (stores the current node being processed)
+  3. `next` (stores the next node temporarily to avoid losing reference)
+- Update the `next` pointers in each iteration to reverse the list.
+
+### Algorithm
+1. Initialize `prev` as `null` and `current` as `head`.
+2. Iterate while `current` is not `null`:
+   - Store `current.next` in `next`.
+   - Reverse `current.next` to point to `prev`.
+   - Move `prev` to `current` and `current` to `next`.
+3. At the end, `prev` will be the new head of the reversed list.
+
+### Code Implementation (Java)
+```java
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) { this.val = val; }
+    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+}
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode current = head, prev = null;
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
+    }
+
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+        Solution solution = new Solution();
+        ListNode reversedHead = solution.reverseList(head);
+        while (reversedHead != null) {
+            System.out.print(reversedHead.val + " -> ");
+            reversedHead = reversedHead.next;
+        }
+        System.out.println("null");
+    }
+}
+```
+
+---
+
+## Complexity Analysis
+| Operation | Time Complexity | Space Complexity |
+|-----------|----------------|------------------|
+| Traversing the list | `O(n)` | `O(1)` |
+
+- **Time Complexity:** `O(n)`, where `n` is the number of nodes in the list (each node is processed once).
+- **Space Complexity:** `O(1)`, as we use only a few pointers without extra space.
+
+---
+
+## Edge Cases Considered
+- Empty list (`head == null`) → Returns `null`.
+- List with a single node (`head.next == null`) → Returns `head`.
+- List with multiple nodes → Reverses successfully.
+
+---
+
+## Alternative Approach: Recursive Method
+1. Base case: If `head == null` or `head.next == null`, return `head`.
+2. Recursively call `reverseList(head.next)`.
+3. Reverse pointers at each step.
+
+```java
+public ListNode reverseListRecursive(ListNode head) {
+    if (head == null || head.next == null) {
+        return head;
+    }
+    ListNode reversedHead = reverseListRecursive(head.next);
+    head.next.next = head;
+    head.next = null;
+    return reversedHead;
+}
+```
+
+### Recursive Complexity:
+- **Time Complexity:** `O(n)` (same as iterative)
+- **Space Complexity:** `O(n)` (recursive stack depth)
+
+This method is cleaner but uses extra space due to recursion.
+
+---
+
+## Key Takeaways
+- The **iterative approach** efficiently reverses a linked list in `O(n)` time and `O(1)` space.
+- The **recursive approach** is more elegant but requires `O(n)` extra space.
+- Understanding pointer manipulation is crucial for solving linked list problems efficiently.
+
+===========================
+
+---
+*18.*
+
+# Copy List with Random Pointer
+
+## Problem Statement
+A linked list of length `n` is given such that each node contains an additional **random pointer**, which could point to any node in the list, or `null`.
+
+We need to **create a deep copy** of the linked list.
+- The new list should have **exactly `n` new nodes**.
+- Each new node’s `next` and `random` pointers should mimic the original list.
+- No pointer in the new list should point to a node from the original list.
+
+---
+## Approach 1: Using **HashMap** (Easier Method)
+
+### **Intuition**
+- We create a **mapping** between the original nodes and their corresponding cloned nodes.
+- First, we create **all cloned nodes** and store them in a HashMap.
+- Then, we iterate again to **assign the `next` and `random` pointers** properly.
+
+### **Algorithm**
+1. **Create a HashMap** to store `{original node → cloned node}`.
+2. **First pass:** Create cloned nodes and store them in the map.
+3. **Second pass:** Assign `next` and `random` pointers using the map.
+
+### **Code**
+```java
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        
+        // Step 1: Create HashMap to store original -> cloned mapping
+        Map<Node, Node> map = new HashMap<>();
+        Node current = head;
+        while (current != null) {
+            map.put(current, new Node(current.val));
+            current = current.next;
+        }
+        
+        // Step 2: Assign next and random pointers
+        current = head;
+        while (current != null) {
+            map.get(current).next = map.get(current.next); // Assign next
+            map.get(current).random = map.get(current.random); // Assign random
+            current = current.next;
+        }
+        
+        return map.get(head); // Return the new head
+    }
+}
+```
+
+### **Time Complexity**: `O(N)`
+- We traverse the list twice (`O(N) + O(N) = O(N)`).
+
+### **Space Complexity**: `O(N)`
+- HashMap stores `N` elements (`O(N)`).
+
+---
+## Approach 2: **Optimized (O(1) Space) Without Extra Data Structures**
+
+### **Intuition**
+- Instead of using extra space, we **insert new nodes directly** into the original list.
+- This helps us efficiently copy the `random` pointers **without a HashMap**.
+- Finally, we **separate** the original and copied lists.
+
+### **Algorithm**
+1. **Step 1**: **Create new nodes** next to original nodes.
+2. **Step 2**: **Copy `random` pointers**.
+3. **Step 3**: **Detach the new list** from the old list.
+
+### **Code**
+```java
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        
+        // Step 1: Create new cloned nodes and insert them next to original nodes
+        Node current = head;
+        while (current != null) {
+            Node newNode = new Node(current.val);
+            newNode.next = current.next;
+            current.next = newNode;
+            current = newNode.next;
+        }
+        
+        // Step 2: Assign random pointers to cloned nodes
+        current = head;
+        while (current != null) {
+            if (current.random != null) {
+                current.next.random = current.random.next;
+            }
+            current = current.next.next;
+        }
+        
+        // Step 3: Separate cloned list from the original list
+        current = head;
+        Node newHead = head.next;
+        Node copy = newHead;
+        while (current != null) {
+            current.next = copy.next;
+            current = current.next;
+            if (current != null) {
+                copy.next = current.next;
+                copy = copy.next;
+            }
+        }
+        
+        return newHead;
+    }
+}
+```
+
+### **Time Complexity**: `O(N)`
+- Three passes:  
+  1. **Creating new nodes (`O(N)`)**  
+  2. **Assigning `random` pointers (`O(N)`)**  
+  3. **Separating lists (`O(N)`)**
+
+### **Space Complexity**: `O(1)`
+- No extra data structures used, only modifying pointers.
+
+---
+## **Comparison of Approaches**
+| Approach | Time Complexity | Space Complexity | Notes |
+|----------|----------------|------------------|-------|
+| **HashMap Method** | `O(N)` | `O(N)` | Easier to understand but uses extra space |
+| **Optimized (O(1) Space)** | `O(N)` | `O(1)` | More efficient, modifies list temporarily |
+
+---
+## **Key Takeaways**
+- If **extra space is allowed**, use the **HashMap method** (simpler to implement and understand).
+- If **constant space is required**, use the **optimized method** by modifying the original list.
+- Always be careful when handling `random` pointers to avoid `NullPointerException`.
+
+---
+## **Edge Cases to Consider**
+1. **Empty list (`head == null`)** → Return `null`.
+2. **List with one node (`head.next == null`)** → Handle `random` pointers correctly.
+3. **Random pointers pointing to `null`** → Ensure correct handling.
+4. **All nodes having `random` pointers to themselves** → Verify if deep copy maintains structure.
+5. **Cyclic dependencies in `random` pointers** → Make sure the algorithm works correctly.
+
+---
+
+
