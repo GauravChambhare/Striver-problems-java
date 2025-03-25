@@ -1,4 +1,4 @@
-package faang_questions;
+package mockup_interview_questions;
 
 public class adddingTwoLL {
     class ListNode1{
