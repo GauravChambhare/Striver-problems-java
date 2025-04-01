@@ -21,9 +21,30 @@ public class PreorderTraversalOfBT {
         preOrder(root.right, l); // Traverse the right subtree
         return l;
     }
+/* 
+// using preorder traversal
+public static void preOrder(TreeNode<Integer> root) {
+    if (root == null) return;
 
+    Stack<TreeNode<Integer>> stack = new Stack<>();
+    List<Integer> list = new ArrayList<>();
 
+    stack.push(root);
 
+    while (!stack.isEmpty()) {
+        TreeNode<Integer> top = stack.pop();
+        list.add(top.data);
+
+        // Push right first, so that left is processed first
+        if (top.right != null) stack.push(top.right);
+        if (top.left != null) stack.push(top.left);
+    }
+
+    for (Integer s : list) {
+        System.out.print(s + " ");
+    }
+}
+*/
     public static void main(String[] args) {
         // {1,2,3,4,5,6,7} -- binary tree values
         TreeNode root = new TreeNode(1);
