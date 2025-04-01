@@ -1192,7 +1192,7 @@ This method is cleaner but uses extra space due to recursion.
 ===========================
 
 ---
-*18.*
+*18.src/main/java/a2z/step6/lec5/CloneLinkedListWithRandomPointer.java*
 
 # Copy List with Random Pointer
 
@@ -1337,4 +1337,170 @@ class Solution {
 
 ---
 
+# Binary Tree Traversals
+
+## 1. Preorder Traversal (Root -> Left -> Right)
+### **Recursive Approach**
+**Algorithm:**
+1. Visit the root node.
+2. Recursively traverse the left subtree.
+3. Recursively traverse the right subtree.
+
+```java
+public void preOrderRecursive(BinaryTreeNode root) {
+    if (root == null) return;
+    System.out.print(root.data + " ");
+    preOrderRecursive(root.left);
+    preOrderRecursive(root.right);
+}
+```
+
+### **Iterative Approach (Using Stack)**
+**Algorithm:**
+1. Push the root node to a stack.
+2. While the stack is not empty:
+   - Pop a node, print its value.
+   - Push its right child (if exists).
+   - Push its left child (if exists).
+
+```java
+public void preOrderIterative(BinaryTreeNode root) {
+    if (root == null) return;
+    Stack<BinaryTreeNode> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.isEmpty()) {
+        BinaryTreeNode node = stack.pop();
+        System.out.print(node.data + " ");
+        if (node.right != null) stack.push(node.right);
+        if (node.left != null) stack.push(node.left);
+    }
+}
+```
+
+---
+
+## 2. Inorder Traversal (Left -> Root -> Right)
+### **Recursive Approach**
+**Algorithm:**
+1. Recursively traverse the left subtree.
+2. Visit the root node.
+3. Recursively traverse the right subtree.
+
+```java
+public void inOrderRecursive(BinaryTreeNode root) {
+    if (root == null) return;
+    inOrderRecursive(root.left);
+    System.out.print(root.data + " ");
+    inOrderRecursive(root.right);
+}
+```
+
+### **Iterative Approach (Using Stack)**
+**Algorithm:**
+1. Use a stack to store nodes while traversing.
+2. Start from the root and push all left children.
+3. Pop from stack, print node, then push right subtree.
+
+```java
+public void inOrderIterative(BinaryTreeNode root) {
+    if (root == null) return;
+    Stack<BinaryTreeNode> stack = new Stack<>();
+    BinaryTreeNode curr = root;
+    while (curr != null || !stack.isEmpty()) {
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        System.out.print(curr.data + " ");
+        curr = curr.right;
+    }
+}
+```
+
+---
+
+## 3. Postorder Traversal (Left -> Right -> Root)
+### **Recursive Approach**
+**Algorithm:**
+1. Recursively traverse the left subtree.
+2. Recursively traverse the right subtree.
+3. Visit the root node.
+
+```java
+public void postOrderRecursive(BinaryTreeNode root) {
+    if (root == null) return;
+    postOrderRecursive(root.left);
+    postOrderRecursive(root.right);
+    System.out.print(root.data + " ");
+}
+```
+
+### **Iterative Approach (Using Two Stacks)**
+**Algorithm:**
+1. Push root to **stack1**.
+2. While **stack1** is not empty:
+   - Pop a node and push it into **stack2**.
+   - Push left and right children into **stack1**.
+3. Print elements from **stack2**.
+
+```java
+public void postOrderIterative(BinaryTreeNode root) {
+    if (root == null) return;
+    Stack<BinaryTreeNode> stack1 = new Stack<>(), stack2 = new Stack<>();
+    stack1.push(root);
+    while (!stack1.isEmpty()) {
+        BinaryTreeNode node = stack1.pop();
+        stack2.push(node);
+        if (node.left != null) stack1.push(node.left);
+        if (node.right != null) stack1.push(node.right);
+    }
+    while (!stack2.isEmpty()) {
+        System.out.print(stack2.pop().data + " ");
+    }
+}
+```
+
+---
+
+## 4. Level Order Traversal (BFS)
+### **Iterative Approach (Using Queue)**
+**Algorithm:**
+1. Use a queue and enqueue the root.
+2. While the queue is not empty:
+   - Dequeue a node, print its value.
+   - Enqueue its left and right children (if exist).
+
+```java
+public void levelOrder(BinaryTreeNode root) {
+    if (root == null) return;
+    Queue<BinaryTreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    while (!queue.isEmpty()) {
+        BinaryTreeNode node = queue.poll();
+        System.out.print(node.data + " ");
+        if (node.left != null) queue.offer(node.left);
+        if (node.right != null) queue.offer(node.right);
+    }
+}
+```
+
+---
+
+## **Comparison of Traversal Approaches**
+| Traversal | Time Complexity | Space Complexity | Best Used For |
+|-----------|----------------|------------------|---------------|
+| **Preorder** | O(N) | O(N) (Recursive), O(N) (Iterative) | Copying a tree, creating an expression tree |
+| **Inorder** | O(N) | O(N) (Recursive), O(N) (Iterative) | Sorting elements, binary search trees (BST) |
+| **Postorder** | O(N) | O(N) (Recursive), O(N) (Iterative) | Deleting a tree, evaluating expressions |
+| **Level Order (BFS)** | O(N) | O(N) (Queue storage) | Shortest path problems, BFS traversal |
+
+---
+
+## **Key Takeaways**
+- **Recursive approaches** are simpler but use extra memory due to recursion.
+- **Iterative approaches** avoid recursion overhead but require explicit stacks or queues.
+- **Use Level Order Traversal** for BFS applications (like shortest paths).
+- **Inorder traversal** is useful for binary search trees (BSTs).
+- **Postorder traversal** is useful for deleting nodes or evaluating expressions.
 
