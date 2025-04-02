@@ -22,7 +22,7 @@ public class PreorderTraversalOfBT {
         return l;
     }
 /* 
-// using preorder traversal
+// using preorder traversal using iteration
 public static void preOrder(TreeNode<Integer> root) {
     if (root == null) return;
 
