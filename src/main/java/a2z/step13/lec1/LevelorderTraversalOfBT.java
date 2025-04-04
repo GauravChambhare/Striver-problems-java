@@ -34,7 +34,7 @@ public class LevelorderTraversalOfBT {
         queue.offer(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
-            List<Integer> sublist = new LinkedList<>();
+            List<Integer> sublist = new LinkedList<>(); 
             
             for (int i = 0; i < size; i++) {
                 TreeNode current = queue.poll();
