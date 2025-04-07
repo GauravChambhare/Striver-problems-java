@@ -1335,6 +1335,8 @@ class Solution {
 4. **All nodes having `random` pointers to themselves** → Verify if deep copy maintains structure.
 5. **Cyclic dependencies in `random` pointers** → Make sure the algorithm works correctly.
 
+===========================
+
 ---
 
 # Binary Tree Traversals
@@ -1503,4 +1505,90 @@ public void levelOrder(BinaryTreeNode root) {
 - **Use Level Order Traversal** for BFS applications (like shortest paths).
 - **Inorder traversal** is useful for binary search trees (BSTs).
 - **Postorder traversal** is useful for deleting nodes or evaluating expressions.
+
+===========================
+
+---
+
+*19.src/main/java/a2z/step13/lec2/BinaryTreeZigZagLevelorderTraversal.java*
+
+# Binary Tree Zigzag Level Order Traversal
+
+## Problem Statement
+Given the `root` of a binary tree, return the zigzag level order traversal of its nodes' values.
+- (i.e., from left to right, then right to left for the next level and alternate between).
+
+---
+## Approach: Using BFS + Deque
+
+### **Intuition**
+- Similar to normal level-order traversal using a queue.
+- The only difference is the order in which we add the nodes to the current level list.
+- Use a **Deque** to allow fast additions at both ends.
+
+### **Algorithm**
+1. Create a queue for BFS and add the root node.
+2. Use a boolean flag `isLeftToRight` to track the current direction.
+3. For each level:
+   - Create an empty `Deque`.
+   - Traverse all nodes in the current level.
+   - Add their values to the deque:
+     - If left-to-right → `deque.addLast()`
+     - If right-to-left → `deque.addFirst()`
+   - Add child nodes to the queue for the next level.
+4. Add the `deque` (converted to list) to the result.
+5. Flip the `isLeftToRight` flag.
+
+### **Code**
+```java
+public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    List<List<Integer>> result = new LinkedList<>();
+    if (root == null) return result;
+
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    boolean isLeftToRight = true;
+
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+        Deque<Integer> deque = new LinkedList<>();
+
+        for (int i = 0; i < size; i++) {
+            TreeNode node = queue.poll();
+
+            if (isLeftToRight) {
+                deque.addLast(node.val);
+            } else {
+                deque.addFirst(node.val);
+            }
+
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+
+        result.add(new ArrayList<>(deque));
+        isLeftToRight = !isLeftToRight;
+    }
+
+    return result;
+}
+```
+
+### **Time Complexity**: `O(N)`
+- We visit each node exactly once.
+
+### **Space Complexity**: `O(N)`
+- Space required for queue and result list.
+
+---
+## **Key Takeaways**
+- Use **Deque** to efficiently insert from front and back.
+- Toggle direction using a boolean flag.
+- Always use a queue for BFS traversal.
+
+---
+## **Edge Cases to Consider**
+1. Empty tree → return empty list.
+2. Tree with only one node.
+3. Perfect binary tree vs skewed trees (left-heavy or right-heavy).
 
