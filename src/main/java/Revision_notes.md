@@ -1592,3 +1592,100 @@ public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 2. Tree with only one node.
 3. Perfect binary tree vs skewed trees (left-heavy or right-heavy).
 
+========================
+
+---
+### 📘 **Problem: Count Number of Undirected Graphs**
+
+Given an integer `n`, representing the number of vertices, determine how many **undirected graphs** (not necessarily connected) can be constructed.
+
+### 🔍 **Key Concepts**
+
+- In an undirected graph, **each edge connects two distinct vertices** without direction.
+- The **total number of possible undirected edges** between `n` vertices is:  
+  \[
+  \text{edges} = \frac{n \cdot (n - 1)}{2}
+  \]
+- Each edge can either **exist or not**, leading to:  
+  \[
+  \text{total graphs} = 2^{\text{edges}} = 2^{\frac{n \cdot (n - 1)}{2}}
+  \]
+
+### ⏱️ **Time Complexity**:  
+- `O(1)` – just computes a power of 2.
+
+### 🧠 **Edge Case**
+- If `n = 0` or `n = 1`: Only one possible graph (empty).
+
+========================
+**
+---
+
+# Adjacency List of an Undirected Graph
+
+## Problem Statement  
+Given an undirected graph with `V` nodes and `E` edges, return its adjacency list.  
+- Graph uses **0-based indexing**.
+- Each edge connects two nodes `u` and `v`, and since it’s **undirected**, both `u` and `v` are neighbors of each other.
+
+---
+
+## Approach: Using ArrayList of ArrayLists
+
+### **Intuition**
+- An adjacency list helps us efficiently represent which nodes are connected to which.
+- Since the graph is undirected, for every edge `[u, v]`, we must:
+  - Add `v` to `u`’s list.
+  - Add `u` to `v`’s list.
+
+### **Algorithm**
+1. Initialize an outer `ArrayList` of size `V`, where each element is another list (`ArrayList<Integer>`) to store the neighbors.
+2. Traverse each edge:
+   - For each edge `[u, v]`, update the adjacency list:
+     - `adjList[u].add(v)`
+     - `adjList[v].add(u)`
+3. Return the adjacency list.
+
+### **Code**
+```java
+class Solution {
+    public List<List<Integer>> printGraph(int V, int edges[][]) {
+
+        List<List<Integer>> adjList = new ArrayList<>();
+        
+        for (int i = 0; i < V; i++) {
+            adjList.add(new ArrayList<Integer>());
+        }
+
+        for (int[] edge : edges) {
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]); // Because it's undirected
+        }
+
+        return adjList;
+    }
+}
+```
+
+---
+
+### **Time Complexity**: `O(V + E)`
+- We create `V` lists.
+- We process `E` edges, each adding two connections.
+
+### **Space Complexity**: `O(V + E)`
+- We store adjacency for all nodes, and each edge is stored twice.
+
+---
+
+## **Key Takeaways**
+- Undirected graph → bidirectional edges → add both ways.
+- Adjacency List is space-efficient compared to adjacency matrix for sparse graphs.
+- Always initialize inner lists before adding elements.
+
+---
+
+## **Edge Cases to Consider**
+1. No edges → All adjacency lists are empty.
+2. Complete graph → Every node connected to every other node.
+3. Disconnected components → Valid in undirected graphs.
