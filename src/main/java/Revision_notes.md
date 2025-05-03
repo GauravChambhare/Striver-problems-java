@@ -1689,3 +1689,169 @@ class Solution {
 1. No edges → All adjacency lists are empty.
 2. Complete graph → Every node connected to every other node.
 3. Disconnected components → Valid in undirected graphs.
+
+========================
+**
+---
+Here is the complete Markdown text for BFS and DFS in Java, ready to be saved as a `.md` file:
+
+ 
+# BFS and DFS in Java
+
+## 🔍 Overview
+
+BFS (Breadth-First Search) and DFS (Depth-First Search) are two fundamental graph traversal algorithms. They help explore all vertices and edges of a graph and are widely used in pathfinding, connectivity checks, cycle detection, and more.
+
+---
+
+## 📘 Key Concepts
+
+### Graph Representation in Java
+
+Graphs are typically represented using an **adjacency list** for efficiency:
+
+```java
+List<List<Integer>> graph = new ArrayList<>();
+for (int i = 0; i < n; i++) {
+    graph.add(new ArrayList<>());
+}
+graph.get(u).add(v);
+graph.get(v).add(u); // for undirected graph
+```
+
+---
+
+## 🚀 Breadth-First Search (BFS)
+
+### ✅ Characteristics
+- Uses a **Queue**
+- Explores nodes level by level
+- Good for finding **shortest path in unweighted graphs**
+
+### 🧠 Algorithm Steps
+1. Start with a node, mark it as visited.
+2. Add it to the queue.
+3. While the queue is not empty:
+   - Dequeue a node.
+   - Visit all its unvisited neighbors.
+   - Mark them visited and enqueue them.
+
+### 💻 Java Code for BFS
+
+```java
+public void bfs(int start, List<List<Integer>> graph, boolean[] visited) {
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(start);
+    visited[start] = true;
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        System.out.print(node + " ");
+
+        for (int neighbor : graph.get(node)) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                queue.offer(neighbor);
+            }
+        }
+    }
+}
+```
+
+---
+
+## 🧭 Depth-First Search (DFS)
+
+### ✅ Characteristics
+- Uses a **Stack** (or recursion)
+- Explores as far as possible along each branch before backtracking
+- Good for cycle detection, connected components
+
+### 🧠 Algorithm Steps
+1. Start with a node, mark it as visited.
+2. Recursively explore all its unvisited neighbors.
+
+### 💻 Java Code for DFS (Recursive)
+
+```java
+public void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
+    visited[node] = true;
+    System.out.print(node + " ");
+
+    for (int neighbor : graph.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, graph, visited);
+        }
+    }
+}
+```
+
+### 💻 Java Code for DFS (Iterative)
+
+```java
+public void dfsIterative(int start, List<List<Integer>> graph, boolean[] visited) {
+    Stack<Integer> stack = new Stack<>();
+    stack.push(start);
+
+    while (!stack.isEmpty()) {
+        int node = stack.pop();
+
+        if (!visited[node]) {
+            visited[node] = true;
+            System.out.print(node + " ");
+
+            for (int neighbor : graph.get(node)) {
+                if (!visited[neighbor]) {
+                    stack.push(neighbor);
+                }
+            }
+        }
+    }
+}
+```
+
+---
+
+## 🧪 BFS vs DFS Comparison
+
+| Feature            | BFS                          | DFS                          |
+|--------------------|-------------------------------|-------------------------------|
+| Data Structure     | Queue                         | Stack / Recursion             |
+| Traversal Order    | Level by level                | Depth-wise                    |
+| Shortest Path      | ✅ Yes (Unweighted)            | ❌ No                         |
+| Space Complexity   | O(V)                          | O(V)                          |
+| Applications       | Shortest path, social graph   | Topological sort, cycle detection |
+
+---
+
+## 🧰 Applications
+
+- ✅ Finding shortest path (BFS)
+- ✅ Checking connected components (DFS)
+- ✅ Detecting cycles in graphs
+- ✅ Solving maze problems
+- ✅ Web crawler simulations
+- ✅ Topological sorting (DFS)
+
+---
+
+## 📝 Practice Problems
+
+1. [Leetcode 200 - Number of Islands (DFS)](https://leetcode.com/problems/number-of-islands/)
+2. [Leetcode 994 - Rotting Oranges (BFS)](https://leetcode.com/problems/rotting-oranges/)
+3. [Leetcode 841 - Keys and Rooms (DFS)](https://leetcode.com/problems/keys-and-rooms/)
+4. [Leetcode 286 - Walls and Gates (BFS)](https://leetcode.com/problems/walls-and-gates/)
+
+---
+
+## 📌 Tips
+
+- Always mark visited **immediately after enqueueing or before recursive call**.
+- Use adjacency list for sparse graphs.
+- Choose BFS for shortest-path questions unless edge weights are involved.
+
+
+========================
+**
+---
+

@@ -14,6 +14,8 @@ public class GraphAndTypes {
         int edges = (n * (n - 1)) / 2;
         return (long) Math.pow(2, edges);
     }
+    // an edge between two vertices can have two properties, either it can exist or not exist.
+    // and above we have calculated the no. of edges that can be present between n vertices graph   
 
     // Main method to test the function locally
     public static void main(String[] args) {
