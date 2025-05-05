@@ -5,12 +5,12 @@ https://www.geeksforgeeks.org/problems/introduction-to-doubly-linked-list/1?utm_
 
 package a2z.step6.lec2;
 
-class Node {
+class Node1 {
     int data;
-    Node next;
-    Node prev;
+    Node1 next;
+    Node1 prev;
 
-    Node(int val) {
+    Node1(int val) {
         data = val;
         next = null;
         prev = null;
@@ -18,14 +18,14 @@ class Node {
 }
 
 class introduction_to_doubly_linked_list {
-    public Node constructDLL(int[] arr) {
+    public Node1 constructDLL(int[] arr) {
         if (arr.length == 0) return null;
 
-        Node head = new Node(arr[0]); // Create head node
-        Node prev = head;
+        Node1 head = new Node1(arr[0]); // Create head Node1
+        Node1 prev = head;
 
         for (int i = 1; i < arr.length; i++) {
-            Node temp = new Node(arr[i]); // Create new node
+            Node1 temp = new Node1(arr[i]); // Create new Node1
             prev.next = temp;  // Link forward
             temp.prev = prev;  // Link backward
             prev = temp;  // Move prev pointer
@@ -35,8 +35,8 @@ class introduction_to_doubly_linked_list {
     }
 
     // Helper method to print DLL
-    public void printDLL(Node head) {
-        Node temp = head;
+    public void printDLL(Node1 head) {
+        Node1 temp = head;
         while (temp != null) {
             System.out.print(temp.data + " <--> ");
             temp = temp.next;
@@ -47,7 +47,7 @@ class introduction_to_doubly_linked_list {
     public static void main(String[] args) {
         introduction_to_doubly_linked_list sol = new introduction_to_doubly_linked_list();
         int[] arr = {1, 2, 3, 4, 5};
-        Node head = sol.constructDLL(arr);
+        Node1 head = sol.constructDLL(arr);
         sol.printDLL(head); // Output: 1 2 3 4 5
     }
 }

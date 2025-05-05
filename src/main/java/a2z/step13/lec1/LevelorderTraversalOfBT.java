@@ -7,17 +7,17 @@ package a2z.step13.lec1;
 
 import java.util.*;
 
-class TreeNode {
+class TreeNode4 {
     int data;
-    TreeNode left, right;
+    TreeNode4 left, right;
 
-    TreeNode() {}
+    TreeNode4() {}
 
-    TreeNode(int data) {
+    TreeNode4(int data) {
         this.data = data;
     }
 
-    TreeNode(int data, TreeNode left, TreeNode right) {
+    TreeNode4(int data, TreeNode4 left, TreeNode4 right) {
         this.data = data;
         this.left = left;
         this.right = right;
@@ -25,8 +25,8 @@ class TreeNode {
 }
 
 public class LevelorderTraversalOfBT {
-    public static List<List<Integer>> levelOrder(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
+    public static List<List<Integer>> levelOrder(TreeNode4 root) {
+        Queue<TreeNode4> queue = new LinkedList<>();
         List<List<Integer>> result = new LinkedList<>();
         
         if (root == null) return result;
@@ -37,7 +37,7 @@ public class LevelorderTraversalOfBT {
             List<Integer> sublist = new LinkedList<>(); 
             
             for (int i = 0; i < size; i++) {
-                TreeNode current = queue.poll();
+                TreeNode4 current = queue.poll();
                 sublist.add(current.data);
                 
                 if (current.left != null) queue.offer(current.left);
@@ -51,13 +51,13 @@ public class LevelorderTraversalOfBT {
 
     public static void main(String[] args) {
         // Creating a sample tree
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(7);
+        TreeNode4 root = new TreeNode4(1);
+        root.left = new TreeNode4(2);
+        root.right = new TreeNode4(3);
+        root.left.left = new TreeNode4(4);
+        root.left.right = new TreeNode4(5);
+        root.right.left = new TreeNode4(6);
+        root.right.right = new TreeNode4(7);
 
         // Running level order traversal
         List<List<Integer>> traversalResult = levelOrder(root);
