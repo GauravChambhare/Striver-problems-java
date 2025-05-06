@@ -1851,7 +1851,385 @@ public void dfsIterative(int start, List<List<Integer>> graph, boolean[] visited
 - Choose BFS for shortest-path questions unless edge weights are involved.
 
 
-========================
-**
 ---
 
+========================
+
+[LeetCode problem 2685](https://leetcode.com/problems/count-the-number-of-complete-components/)
+
+#### *src/main/java/a2z/step15/lec1/CountTheNumberOfConnectedComponents.java*
+
+---
+
+### 🧠 Problem Summary:
+
+You are given an undirected graph with `n` nodes and a list of `edges`. You need to **count how many connected components** in the graph are **complete**.
+
+A **complete component** is one where every pair of nodes in the component is connected by a direct edge (i.e., it forms a **complete graph**).
+
+---
+
+### ✅ Approach:
+
+1. **Build the graph** using an adjacency list.
+2. **Use DFS** to extract each connected component.
+3. **Check if each component is complete** using one of two methods:
+   - Naively check all pairs of nodes in the component to see if every node is connected to every other.
+   - OR count the total number of edges in the component and verify if it equals the formula for complete graph:
+     \[
+     \text{number of edges} = \frac{n(n-1)}{2}
+     \]
+
+We use the **second optimized method** in our solution.
+
+---
+
+### 🔍 Edge Case:
+
+- A **single node** (with no edges) **is considered a complete component**.
+- Each **disconnected node** must be counted individually.
+
+---
+
+### 👨‍💻 Code:
+
+```java
+package a2z.step15.lec1;
+
+import java.util.*;
+
+public class CountTheNumberOfConnectedComponents {
+
+    public int countCompleteComponents(int n, int[][] edges) {
+        int ans = 0;
+        boolean[] visited = new boolean[n];
+        List<List<Integer>> adjList = buildAdjList(n, edges);
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                List<Integer> component = new ArrayList<>();
+                dfs(i, visited, adjList, component);
+                if (isComplete(component, adjList)) {
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+
+    private List<List<Integer>> buildAdjList(int V, int[][] edges) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adjList.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]);
+        }
+        return adjList;
+    }
+
+    private void dfs(int v, boolean[] visited, List<List<Integer>> adjList, List<Integer> component) {
+        visited[v] = true;
+        component.add(v);
+        for (Integer neighbor : adjList.get(v)) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, visited, adjList, component);
+            }
+        }
+    }
+
+    private boolean isComplete(List<Integer> component, List<List<Integer>> adjList) {
+        int size = component.size();
+        int edgeCount = 0;
+
+        for (int node : component) {
+            edgeCount += adjList.get(node).size();
+        }
+
+        edgeCount /= 2;
+
+        return edgeCount == (size * (size - 1)) / 2;
+    }
+
+    public static void main(String[] args) {
+        CountTheNumberOfConnectedComponents obj = new CountTheNumberOfConnectedComponents();
+        
+        int[][] edges1 = {{0, 1}, {0, 2}, {1, 2}, {3, 4}};
+        System.out.println("Output: " + obj.countCompleteComponents(6, edges1)); // Output: 3
+
+        int[][] edges2 = {{0, 1}, {1, 2}, {2, 0}, {3, 4}, {4, 5}, {5, 3}};
+        System.out.println("Output: " + obj.countCompleteComponents(6, edges2)); // Output: 2
+    }
+}
+```
+---
+
+========================
+
+[LeetCode problem 1971](https://leetcode.com/problems/find-if-path-exists-in-graph/)
+
+#### *src/main/java/a2z/step15/lec1/FindIfPathExistsinGraph.java*
+
+---
+
+## 🧠 Problem Summary:
+
+> You are given an undirected graph of `n` nodes labeled from `0` to `n-1` and a list of edges. You must determine if there exists a path from the `source` node to the `destination` node.
+
+### ✅ Constraints:
+- The graph is **bi-directional** (undirected).
+- There can be at most one edge between any two nodes.
+- No self-loops are allowed.
+- The graph may be **disconnected**.
+- `1 <= n <= 2 * 10^5`, so algorithm must be efficient.
+
+---
+
+## 💡 Intuition:
+
+The task is to check whether a path exists between `source` and `destination`. Since it’s an **undirected graph**, we can either:
+- Traverse using **DFS** or
+- Use **BFS** to explore from the source
+
+The main idea is to explore the graph from the source and check whether we ever reach the destination.
+
+---
+
+## 🛠️ Approach
+
+### ✅ Step-by-step:
+1. Build an adjacency list for the graph using the edges.
+2. Initialize a `visited[]` array to track visited nodes.
+3. Perform **DFS** or **BFS** starting from the source node.
+4. If the destination is reached during traversal, return `true`.
+5. If traversal completes and destination is not reached, return `false`.
+
+---
+
+## 🔁 DFS Implementation
+
+```java
+public boolean validPath(int n, int[][] edges, int source, int destination) {
+    ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+        graph.add(new ArrayList<>());
+    }
+
+    for (int[] edge : edges) {
+        graph.get(edge[0]).add(edge[1]);
+        graph.get(edge[1]).add(edge[0]);
+    }
+
+    boolean[] visited = new boolean[n];
+    return dfs(graph, source, destination, visited);
+}
+
+private boolean dfs(ArrayList<ArrayList<Integer>> graph, int current, int target, boolean[] visited) {
+    if (current == target) return true;
+    visited[current] = true;
+
+    for (int neighbor : graph.get(current)) {
+        if (!visited[neighbor] && dfs(graph, neighbor, target, visited)) {
+            return true;
+        }
+    }
+    return false;
+}
+```
+
+---
+
+## 🔁 BFS Alternative (Commented in Code)
+
+```java
+public boolean bfs(ArrayList<ArrayList<Integer>> graph, int src, int dst, int n, boolean[] vst){
+    Queue<Integer> q = new LinkedList<>();
+    q.offer(src);
+    vst[src] = true;
+
+    while (!q.isEmpty()) {
+        Integer node = q.poll();
+        if (node == dst) return true;
+        for (int i : graph.get(node)) {
+            if (!vst[i]) {
+                q.offer(i);
+                vst[i] = true;
+            }
+        }
+    }
+    return false;
+}
+```
+
+---
+
+## ✅ Sample Test Cases:
+
+```java
+int n1 = 6;
+int[][] edges1 = {{0,1}, {0,2}, {3,5}, {5,4}, {4,3}};
+
+// Test Case 1
+validPath(n1, edges1, 0, 1) ➝ true
+
+// Test Case 2
+validPath(n1, edges1, 0, 5) ➝ false
+
+// Test Case 3: Source == Destination
+validPath(3, new int[][]{}, 2, 2) ➝ true
+```
+
+---
+
+## 📌 Time and Space Complexity
+
+| Approach | Time Complexity | Space Complexity |
+|----------|------------------|-------------------|
+| DFS/BFS  | O(V + E)         | O(V + E)          |
+
+- `V` = number of vertices
+- `E` = number of edges
+- Visited array = O(V)
+- Adjacency list = O(V + E)
+
+---
+
+## 🧠 Takeaway:
+
+This problem is a classic **graph traversal** question. DFS and BFS both perform equally well here. For dense graphs, BFS might have memory issues, but either strategy is acceptable as long as you ensure early stopping upon reaching the destination.
+
+
+========================
+
+[LeetCode problem 200](https://leetcode.com/problems/number-of-islands/)
+
+#### *src/main/java/faang_questions/graphs/NoOfIslands.java*
+
+---
+
+### 🧠 Problem Summary
+
+**200. Number of Islands**
+
+Given a 2D grid consisting of `'1'`s (land) and `'0'`s (water), return the number of islands.  
+An island is surrounded by water and is formed by connecting adjacent lands **horizontally or vertically**.
+
+You may assume all four edges of the grid are surrounded by water.
+
+---
+
+### ✅ Approach
+
+#### **DFS (Depth-First Search)**
+
+- Traverse the grid using a nested loop.
+- On encountering a `'1'`, trigger DFS and mark all connected `'1'`s as `'0'` to avoid revisiting.
+- Increment the island counter.
+- Base DFS condition: return if out of bounds or current cell is water (`'0'`).
+
+> Note: No extra `visited[][]` is required because we mark visited land as `'0'`.
+
+---
+
+### 🧩 Code
+
+```java
+package faang_questions.graphs;
+
+public class NoOfIslands {
+
+    public static int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int count = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    dfs(grid, i, j, m, n);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static void dfs(char[][] grid, int i, int j, int m, int n) {
+        if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == '0') {
+            return;
+        }
+
+        grid[i][j] = '0';
+
+        dfs(grid, i + 1, j, m, n);
+        dfs(grid, i - 1, j, m, n);
+        dfs(grid, i, j + 1, m, n);
+        dfs(grid, i, j - 1, m, n);
+    }
+
+    public static void main(String[] args) {
+        char[][] grid = {
+            {'1', '1', '0', '0', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '1', '0', '0'},
+            {'0', '0', '0', '1', '1'}
+        };
+
+        int result = numIslands(grid);
+        System.out.println("Number of islands: " + result); // Output: 3
+    }
+}
+```
+
+---
+
+### 🧪 Test Cases
+
+| Grid                                                                                   | Expected Output |
+|----------------------------------------------------------------------------------------|-----------------|
+| `[[1,1,0,0,0],[1,1,0,0,0],[0,0,1,0,0],[0,0,0,1,1]]`                                    | 3               |
+| `[[1,1,1],[0,1,0],[1,1,1]]`                                                            | 1               |
+| `[[0,0,0],[0,0,0],[0,0,0]]`                                                            | 0               |
+
+---
+
+### 📌 Notes
+
+- This is a classic flood-fill problem.
+- Time Complexity: `O(m * n)` where `m = rows`, `n = cols`.
+- Space Complexity: `O(m * n)` in worst case (stack space for DFS recursion).
+
+
+
+---
+
+========================
+
+[]()
+
+#### **
+
+---
+
+
+---
+
+========================
+
+[]()
+
+#### **
+
+---
+
+
+---
+
+========================
+
+[]()
+
+#### **
+
+---
