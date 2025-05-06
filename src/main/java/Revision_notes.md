@@ -2205,12 +2205,105 @@ public class NoOfIslands {
 ---
 
 ========================
+## [Problem: 133. Clone Graph](https://leetcode.com/problems/clone-graph/)
 
-[]()
+### 🧠 Problem Statement
+Given a reference to a node in a **connected undirected graph**, return a **deep copy** (clone) of the graph.
 
-#### **
+Each node contains:
+- An `int val`.
+- A list of `neighbors` (`List<Node>`).
+
+### 🧠 Constraints
+- The graph is connected.
+- Each node's value is unique and matches its position in the input (1-indexed).
+- The given node is always the first node (val = 1).
+- The graph uses an **adjacency list** to represent connections.
 
 ---
+
+### ✅ Approach: DFS + HashMap (Recursion)
+
+#### ✅ Intuition:
+- Graphs can have **cycles**, so we need to keep track of **already visited nodes**.
+- Use a `HashMap<Node, Node>` to remember which original nodes have already been cloned.
+- Traverse the graph using DFS, clone each node, and recursively clone its neighbors.
+
+#### ✅ Steps:
+1. If input `node` is `null`, return `null`.
+2. If `node` is already in map, return the cloned version (avoid cycles).
+3. Otherwise:
+   - Create a **new Node** with the same value.
+   - Add it to the map.
+   - Recursively clone and attach all neighbors.
+
+---
+
+### ✅ Code (Java - DFS):
+```java
+// Definition of Node
+class Node {
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+
+public class CloneGraph {
+
+    private Map<Node, Node> map = new HashMap<>();
+
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+
+        if (map.containsKey(node)) {
+            return map.get(node);
+        }
+
+        Node cloned = new Node(node.val);
+        map.put(node, cloned);
+
+        for (Node neighbor : node.neighbors) {
+            cloned.neighbors.add(cloneGraph(neighbor));
+        }
+
+        return cloned;
+    }
+}
+```
+
+---
+
+### 🧪 Test Cases
+| Input Graph         | Output Graph (Clone)     |
+|---------------------|---------------------------|
+| 1 -- 2              | 1' -- 2'                  |
+|                     |                           |
+| 1 -- 2 -- 3         | 1' -- 2' -- 3'            |
+|  \    |             |  \     |                 |
+|     4               |     4'                   |
+
+---
+
+### ⏱️ Time Complexity
+- O(N), where N is the number of nodes in the graph.
+
+### 🗃️ Space Complexity
+- O(N) for the recursion stack and the HashMap.
+
 
 
 ---
