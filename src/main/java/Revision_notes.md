@@ -2306,15 +2306,104 @@ public class CloneGraph {
 
 
 
----
+Here’s the `.md` note for the **785. Is Graph Bipartite?** problem in the same format as the previous ones:
 
+---
 ========================
 
-[]()
 
-#### **
+### [✅ 785. Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/description/)
+
+📘 **Problem Summary**:  
+Given an undirected graph represented as an adjacency list, check if it is **bipartite**.  
+A graph is **bipartite** if nodes can be colored using two colors such that no two adjacent nodes share the same color.
 
 ---
+
+### 🧠 Intuition:
+
+We want to **color** the graph using two colors (say 0 and 1) in such a way that no adjacent nodes have the same color.  
+This can be checked using:
+
+- **BFS** or **DFS**
+- We try to assign alternate colors to neighbors
+- If we find a neighbor already colored **same** as the current node, the graph is **not bipartite**
+
+Also, since the graph may not be connected, we need to check all components.
+
+---
+
+### 🧵 Approach:
+
+#### ✅ BFS-Based Coloring:
+
+1. Use a `color[]` array initialized with `-1` to indicate unvisited nodes.
+2. For every unvisited node:
+   - Start a BFS from that node.
+   - Color the start node `0`, and alternate colors as we go to neighbors.
+   - If a neighbor is already colored with the same color → return `false`.
+3. If no conflict found in all components → return `true`.
+
+---
+
+### ✅ Code (Local-Ready):
+
+```java
+public class IsGraphBipartite {
+
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int[] color = new int[n];
+        Arrays.fill(color, -1); // -1 = unvisited
+
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {
+                if (!bfs(graph, i, color)) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean bfs(int[][] graph, int start, int[] color) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        color[start] = 0;
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            for (int neighbor : graph[node]) {
+                if (color[neighbor] == -1) {
+                    color[neighbor] = 1 - color[node];
+                    queue.offer(neighbor);
+                } else if (color[neighbor] == color[node]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### 🧪 Test Cases
+
+| Graph                                   | Output |
+|----------------------------------------|--------|
+| `[[1,3],[0,2],[1,3],[0,2]]`            | `true` |
+| `[[1,2,3],[0,2],[0,1,3],[0,2]]`        | `false` |
+
+---
+
+### 📦 Time & Space Complexity
+
+| Metric          | Complexity |
+|-----------------|------------|
+| Time Complexity | `O(V + E)` |
+| Space Complexity| `O(V)`     |
+
+Where `V` = number of vertices, `E` = number of edges.
 
 
 ---
