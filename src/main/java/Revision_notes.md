@@ -1691,11 +1691,8 @@ class Solution {
 3. Disconnected components → Valid in undirected graphs.
 
 ========================
-**
 ---
-Here is the complete Markdown text for BFS and DFS in Java, ready to be saved as a `.md` file:
 
- 
 # BFS and DFS in Java
 
 ## 🔍 Overview
