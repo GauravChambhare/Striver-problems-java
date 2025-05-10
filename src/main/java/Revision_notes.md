@@ -2302,9 +2302,6 @@ public class CloneGraph {
 - O(N) for the recursion stack and the HashMap.
 
 
-
-Here’s the `.md` note for the **785. Is Graph Bipartite?** problem in the same format as the previous ones:
-
 ---
 ========================
 
@@ -2343,7 +2340,7 @@ Also, since the graph may not be connected, we need to check all components.
 
 ---
 
-### ✅ Code (Local-Ready):
+### ✅ Code:
 
 ```java
 public class IsGraphBipartite {
@@ -2407,8 +2404,166 @@ Where `V` = number of vertices, `E` = number of edges.
 
 ========================
 
-[]()
+## [675. Cut Off Trees for Golf Event](src/main/java/faang_questions/graphs/CutOffTreesForGolfEvent.java)
 
-#### **
+**Difficulty**: Hard
+**Category**: Graph / BFS / PriorityQueue
+**Platform**: LeetCode
+**Tags**: BFS, Simulation, Sorting, Grid Traversal
+
+---
+
+### 🧠 Problem Statement (Simplified)
+
+You are given a 2D grid representing a forest.
+
+* `0`: obstacle (cannot walk here)
+* `1`: empty land (walkable)
+* `>1`: tree with height (walkable)
+
+You start at `(0, 0)`.
+You must **cut trees in increasing order of height**.
+Cutting a tree makes that cell `1`.
+You can move **up/down/left/right**.
+
+Return the **minimum total steps** to cut all trees. If it’s not possible to reach a tree, return `-1`.
+
+---
+
+### 💡 Intuition
+
+1. **Identify all trees** (cells > 1) and sort them by height.
+2. Starting from `(0, 0)`, perform **BFS** to reach the next tree.
+3. Track steps for each such traversal and accumulate.
+4. If a tree is unreachable during any step → return `-1`.
+
+This is essentially **shortest path to multiple dynamic targets**, where the grid updates after each cut.
+
+---
+
+### ✅ Key Concepts Required
+
+* **BFS** for shortest path in grid
+* **Sorting trees** by height
+* Grid bounds checking & visited array
+* Simulation using dynamic start points
+* Priority Queue (optional alternative)
+
+---
+
+### 🧪 Sample Test Case
+
+```text
+Input:
+[
+ [1,2,3],
+ [0,0,4],
+ [7,6,5]
+]
+
+Output:
+6
+
+Explanation:
+Start at (0,0) → cut tree at (0,1) → (0,2) → (1,2) → (2,2) → (2,1) → (2,0)
+```
+
+---
+
+### 🧱 Approach
+
+1. **Extract all trees** with position and height.
+2. **Sort trees** based on height.
+3. For each tree:
+
+   * Use **BFS** from current location to the tree.
+   * If not reachable, return `-1`.
+   * Else, add the step count to result and update starting point.
+4. Return total steps.
+
+---
+
+### 🧾 Java Code
+
+```java
+package a2z.step15.lec3;
+
+import java.util.*;
+
+public class CutOffTreesGolfEvent {
+
+    public int cutOffTree(List<List<Integer>> forest) {
+        int m = forest.size(), n = forest.get(0).size();
+        List<int[]> trees = new ArrayList<>();
+
+        // 1. Collect and sort all trees by height
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int val = forest.get(i).get(j);
+                if (val > 1) trees.add(new int[]{i, j, val});
+            }
+        }
+
+        trees.sort(Comparator.comparingInt(a -> a[2]));
+
+        int totalSteps = 0;
+        int startX = 0, startY = 0;
+
+        for (int[] tree : trees) {
+            int steps = bfs(forest, startX, startY, tree[0], tree[1]);
+            if (steps == -1) return -1;
+            totalSteps += steps;
+            startX = tree[0];
+            startY = tree[1];
+        }
+
+        return totalSteps;
+    }
+
+    private int bfs(List<List<Integer>> forest, int sx, int sy, int tx, int ty) {
+        int m = forest.size(), n = forest.get(0).size();
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{sx, sy, 0});
+        visited[sx][sy] = true;
+
+        int[][] dirs = {{0,1},{1,0},{0,-1},{-1,0}};
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0], y = cur[1], dist = cur[2];
+            if (x == tx && y == ty) return dist;
+
+            for (int[] d : dirs) {
+                int nx = x + d[0], ny = y + d[1];
+                if (nx >= 0 && ny >= 0 && nx < m && ny < n &&
+                    !visited[nx][ny] && forest.get(nx).get(ny) != 0) {
+                    queue.offer(new int[]{nx, ny, dist + 1});
+                    visited[nx][ny] = true;
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+---
+
+### 🧠 Complexity Analysis
+
+| Metric              | Value          |
+| ------------------- | -------------- |
+| Time Complexity     | O(T \* M \* N) |
+| Space Complexity    | O(M \* N)      |
+| T = number of trees |                |
+| M x N = grid size   |                |
+
+---
+
+### 🧠 Bonus Tip
+
+You can use **Dijkstra (priority queue)** if you want to optimize for sparse graphs, but here BFS suffices and is more intuitive.
 
 ---

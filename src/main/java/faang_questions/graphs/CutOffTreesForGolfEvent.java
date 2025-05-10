@@ -17,7 +17,7 @@ Starting from the point (0, 0), return the minimum steps you need to walk to cut
 Note: The input is generated such that no two trees have the same height, and there is at least one tree needs to be cut off.
 */
 
-package main.java.faang_questions.graphs;
+package faang_questions.graphs;
 
 import java.util.*;
 
@@ -105,7 +105,11 @@ public class CutOffTreesForGolfEvent {
             Arrays.asList(0, 0, 4),
             Arrays.asList(7, 6, 5)
         );
-
+        /*
+        |1, 2, 3|
+        |0, 0, 4|
+        |7, 6, 5|
+        */
         // Create an instance of the class
         CutOffTreesForGolfEvent solution = new CutOffTreesForGolfEvent();
 
