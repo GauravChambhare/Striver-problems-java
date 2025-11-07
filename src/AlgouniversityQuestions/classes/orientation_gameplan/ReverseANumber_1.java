@@ -1,4 +1,4 @@
-package AlgouniversityQuestions.orientation_gameplan;
+package AlgouniversityQuestions.classes.orientation_gameplan;
 import java.util.Scanner;
 
 public class ReverseANumber_1{
