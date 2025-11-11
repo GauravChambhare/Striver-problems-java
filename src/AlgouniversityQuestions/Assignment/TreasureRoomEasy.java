@@ -61,7 +61,7 @@ import java.util.*;
 
 public class TreasureRoomEasy {
     public static void main(String[] args) {
-
+        /*
 
         Scanner sc = new Scanner(System.in);
         String line1 = sc.nextLine();
@@ -87,8 +87,28 @@ public class TreasureRoomEasy {
         }
         System.out.print(-1);
         return;
-        
+        */
+
+        // Method 2. More optimal
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int W = sc.nextInt();
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for( int i=1; i<=N; i++ ){
+            int num = sc.nextInt();
+            int complement = W - num;
+
+            if(map.containsKey(complement)){
+                System.out.println(map.get(complement) + " "+i);
+                return;
+            }
+            else{
+                map.put(num, i);
+            }
+        }
+        System.out.println(-1);
+        return;
     }
-    
 }
     
