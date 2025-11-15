@@ -28,11 +28,12 @@ public class FactorialOfNumber_2 {
             }
             return result;
         }
-    /*
-     * Approach	Time	Space	Risk of Overflow	Interview Suitability
-        Iterative	O(n)	O(1)	Only on overflow	Best for clarity and safety 
-        Recursive	O(n)	O(n)	Stack overflow	Elegant but less robust
-        BigInteger	O(n)	O(n)	None (w/Big N)	Use for huge results 
+    /*  
+     *  Approach	  Time	Space	 Risk of Overflow	  Interview Suitability
+     *  ------------------------------------------------------------------------------
+        Iterative	  O(n)	O(1)	 Only on overflow	  Best for clarity and safety 
+        Recursive	  O(n)	O(n)	 Stack overflow	    Elegant but less robust
+        BigInteger	O(n)	O(n)	 None (w/Big N)	    Use for huge results 
 
      */
 }

@@ -1,3 +1,4 @@
+//  We are checking the case for input character
 package AlgouniversityQuestions.classes.orientation_gameplan;
 
 import java.util.Scanner;

@@ -12,16 +12,13 @@ Natural numbers are positive integers.
 Input
 One integer N
  on the first line.
-
-N
- integers on the second line. The i
--th integer is vi
+ N integers on the second line. The i-th integer is vi
 .
 
 Constraints
 1≤N≤106
 
-1≤vi≤109
+1≤vi≤10**9
 
 Output
 One integer --- the first natural number that is not present in A.
@@ -94,7 +91,7 @@ public class ClosestRefuge {
             }
         }
     // Method 3. -- use a boolean array of n+2 lenght if we want to save more on space. this is the most optimal approach.
-
+        */
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
         boolean[] present = new boolean[N + 2]; // Include N+1 for the missing number
@@ -113,7 +110,7 @@ public class ClosestRefuge {
             }
         }
 
-    */
+    //
 }
   
 }

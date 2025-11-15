@@ -1,3 +1,5 @@
+/*Reverse an integer */
+
 package AlgouniversityQuestions.classes.orientation_gameplan;
 import java.util.Scanner;
 
@@ -5,6 +7,7 @@ public class ReverseANumber_1{
 
     public static void main(String args[]){
         Scanner sc = new Scanner(System.in);
+        // no. of integer input
         int nums = sc.nextInt();
         for(int i=0; i<nums; i++){
           System.out.println(Reverse(sc.nextInt()));
