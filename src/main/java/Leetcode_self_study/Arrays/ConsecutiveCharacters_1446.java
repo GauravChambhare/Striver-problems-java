@@ -1,3 +1,5 @@
+//https://leetcode.com/problems/consecutive-characters/
+
 package Leetcode_self_study.Arrays;
 
 public class ConsecutiveCharacters_1446 {
