@@ -51,7 +51,6 @@ public class ThreeSumWithMultiplicity_923 {
         }
 
         long answer = 0;
-
         // Iterate through all pairs of numbers
         for (int i = 0; i <= 100; i++) {
             for (int j = i; j <= 100; j++) {
