@@ -7,96 +7,82 @@ import java.util.StringTokenizer;
 
 public class MaxMinSubarrays {
     static class FastReader {
-      
-        // BufferedReader to read input
         BufferedReader b;
-      
-        // StringTokenizer to tokenize input
-        StringTokenizer s; 
-
-        // Constructor to initialize BufferedReader
+        StringTokenizer s;
         public FastReader() {
             b = new BufferedReader(new InputStreamReader(System.in));
         }
-
-        // Method to read the next token as a string
         String next() {
-            while (s == null || !s.hasMoreElements()) { // next() method har baar agla token return karta hai, agar tokens khatam 
-                // ho jate hain, to BufferedReader se new line read karke fresh tokens banata hai.
+            while (s == null || !s.hasMoreElements()) {
                 try {
                     s = new StringTokenizer(b.readLine());
                 } catch (IOException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             }
             return s.nextToken();
         }
-
-        // Method to read the next token as an integer
-        int nextInt() { 
-            return Integer.parseInt(next()); 
-        }
-
-        // Method to read the next token as a long
-        long nextLong() { 
-            return Long.parseLong(next()); 
-        }
-
-        // Method to read the next token as a double
-        double nextDouble() { 
-            return Double.parseDouble(next()); 
-        }
-
-        // Method to read the next line as a string
+        int nextInt() { return Integer.parseInt(next()); }
+        long nextLong() { return Long.parseLong(next()); }
+        double nextDouble() { return Double.parseDouble(next()); }
         String nextLine() {
             String str = "";
             try {
-                if (s.hasMoreTokens()) {
-                    str = s.nextToken("\n");
-                } else {
-                    str = b.readLine();
-                }
+                if (s != null && s.hasMoreTokens()) str = s.nextToken("\n");
+                else str = b.readLine();
             } catch (IOException e) {
-                e.printStackTrace(); 
+                e.printStackTrace();
             }
             return str;
         }
-    }    
-
+    }
 
     public static void main(String[] args) {
         FastReader f = new FastReader();
         int n = f.nextInt();
         int x = f.nextInt();
         int y = f.nextInt();
-        
         int[] arr = new int[n];
-        
-        for(int i=0; i<n; i++){
-          arr[i] = f.nextInt();
-        }
-        MaxMinSubarrays.bruteForce(arr, n, x, y);
-    }
-    // this is brute force approach O(N**3) TC and O(N) SC -- this approach will lead to TLE generally
-    public static void bruteForce(int[] arr, int n, int x, int y){
-        int ans = 0;
-        for(int left = 0; left < n; left++){
-        
-            for(int right = left; right<n; right++){
-              
-              Integer minSub = Integer.MAX_VALUE;
-              Integer maxSub = Integer.MIN_VALUE;
-              
-              for(int idx = left; idx < right+1; idx++){
-                minSub = Math.min(minSub, arr[idx]);
-                maxSub = Math.max(maxSub, arr[idx]);
-              }
-              if(minSub==y && maxSub==x) ans++;
-            }
-            
-          }
-        System.out.println(ans);   
+        for (int i = 0; i < n; i++) arr[i] = f.nextInt();
+        /*
+          4 3 1
+          1 2 3 1
+          -> 4
+        */
+        // Uncomment one of the approaches as needed:
+        //bruteForce(arr, n, x, y);
+        optimized(arr, n, x, y);
     }
 
-    // below is the optimized approach
+    // Brute force approach O(N^3), for educational purpose
+    public static void bruteForce(int[] arr, int n, int x, int y) {
+        int ans = 0;
+        for (int left = 0; left < n; left++) {
+            for (int right = left; right < n; right++) {
+                int minSub = Integer.MAX_VALUE, maxSub = Integer.MIN_VALUE;
+                for (int idx = left; idx <= right; idx++) {
+                    minSub = Math.min(minSub, arr[idx]);
+                    maxSub = Math.max(maxSub, arr[idx]);
+                }
+                if (minSub == y && maxSub == x) ans++;
+            }
+        }
+        System.out.println(ans);
+    }
+
+    // Optimized O(N) approach
+    public static void optimized(int[] arr, int n, int x, int y) {
+        int lastx = -1, lasty = -1, lastInvalid = -1;
+        long count = 0L;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < y || arr[i] > x) lastInvalid = i;
+            if (arr[i] == x) lastx = i;
+            if (arr[i] == y) lasty = i;
+            int minIdx = Math.min(lastx, lasty);
+            if (minIdx > lastInvalid) {
+                count += minIdx - lastInvalid;
+            }
+        }
+        System.out.println(count);
+    }
 }
