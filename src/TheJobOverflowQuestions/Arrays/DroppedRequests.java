@@ -22,6 +22,17 @@ public class DroppedRequests {
             } else if(i >= 60 && arr[i] - arr[i-60] < 60){
                 dropped++;
             }
+            /*
+            if(i >= 3 && arr[i] == arr[i-3]){
+                dropped++;
+            } 
+            if(i >= 20 && arr[i] - arr[i-20] < 10){
+                dropped++;
+            } 
+            if(i >= 60 && arr[i] - arr[i-60] < 60){
+                dropped++;
+            }
+            */
         }
         System.out.println(dropped);
     }

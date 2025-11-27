@@ -23,7 +23,7 @@ Constraints:
 -231 <= nums[i] <= 231 - 1
 */
 
-package main.java.Leetcode_self_study.Arrays;
+package Leetcode_self_study.Arrays;
 
 import java.util.Arrays;
 
