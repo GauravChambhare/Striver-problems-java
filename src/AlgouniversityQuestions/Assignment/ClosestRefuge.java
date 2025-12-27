@@ -37,7 +37,7 @@ Output
 9
 */
 
-package AlgouniversityQuestions.Assignment;
+// package AlgouniversityQuestions.Assignment;
 import java.util.Scanner;
 import java.util.HashSet;
 import java.util.Set;

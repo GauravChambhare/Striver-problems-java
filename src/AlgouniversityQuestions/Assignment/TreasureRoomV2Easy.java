@@ -168,31 +168,13 @@ public class TreasureRoomV2Easy {
     System.out.print(-1);
     return;
 
-    // Method 2
-    class Block {
+    // Method 2 has been removed as it is unreachable
+  }
+  
+  static class Block {
       int length, originalIndex;
       Block(int l, int idx) { length = l; originalIndex = idx; }
   }
   
-  // Inside main method (after reading input):
-  Block[] blocks = new Block[N];
-  for (int i = 0; i < N; i++) blocks[i] = new Block(f.nextInt(), i + 1);
-  Arrays.sort(blocks, Comparator.comparingInt(b -> b.length));
-  
-  for (int i = 0; i < N - 2; i++) {
-      int target = W - blocks[i].length;
-      int lp = i + 1, rp = N - 1;
-      while (lp < rp) {
-          int sum = blocks[lp].length + blocks[rp].length;
-          if (sum == target) {
-              System.out.println(blocks[i].originalIndex + " " + blocks[lp].originalIndex + " " + blocks[rp].originalIndex);
-              return;
-          } else if (sum < target) lp++;
-          else rp--;
-      }
-  }
-  System.out.println(-1);
-  
 
   }
-}

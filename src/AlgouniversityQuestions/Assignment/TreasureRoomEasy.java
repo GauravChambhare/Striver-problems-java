@@ -43,7 +43,7 @@ Time: 10s
 Memory: 512 MB
 */
 
-package AlgouniversityQuestions.Assignment;
+// package AlgouniversityQuestions.Assignment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
