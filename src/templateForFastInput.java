@@ -1,6 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class templateForFastInput {
@@ -49,6 +53,14 @@ public class templateForFastInput {
         }
         return str;
     }
+    Deque<Integer> stack = new ArrayDeque<>();
+
+    public void FastReader1() {
+        stack.push(1);
+        List<Integer> l = new ArrayList<>();
+        l.addAll(stack);
+    }
   }    
 
 }
+
