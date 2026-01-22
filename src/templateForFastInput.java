@@ -53,13 +53,6 @@ public class templateForFastInput {
         }
         return str;
     }
-    Deque<Integer> stack = new ArrayDeque<>();
-
-    public void FastReader1() {
-        stack.push(1);
-        List<Integer> l = new ArrayList<>();
-        l.addAll(stack);
-    }
   }    
 
 }
