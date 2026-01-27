@@ -11,7 +11,7 @@ public class CourseSchedule1 {
         }
         
         for(int[] r : req){
-            graph.put()
+            // graph.put()
         }
 
         return true;
@@ -23,8 +23,8 @@ public class CourseSchedule1 {
         int numCourses = 2;
         int[][] prerequisites = {{1, 0}};
 
-        boolean canFinish = canFinish(numCourses, prerequisites);
-        System.out.println("Can finish all courses: " + canFinish);
+        // boolean canFinish = canFinish(numCourses, prerequisites);
+        // System.out.println("Can finish all courses: " + canFinish);
     }
     
 }

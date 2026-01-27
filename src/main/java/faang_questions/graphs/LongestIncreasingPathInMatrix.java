@@ -23,7 +23,7 @@ Output: 4
 
 Explanation: The longest increasing path is [1, 2, 6, 9].
 */
-
+/*
 package faang_questions.graphs;
 
 public class LongestIncreasingPathInMatrix {
@@ -67,3 +67,4 @@ public class LongestIncreasingPathInMatrix {
     }
     
 }
+ */
